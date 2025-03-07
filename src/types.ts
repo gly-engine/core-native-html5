@@ -1,4 +1,4 @@
-export interface fontI {
+export type fontI = {
     name: string,
     size: number,
     old: {
@@ -7,11 +7,10 @@ export interface fontI {
     }
 }
 
-export interface renderI {
+export type imageD =  {[key: string]: HTMLImageElement}
+export type mediaD = Array<{[key: number]: HTMLVideoElement | HTMLAudioElement }>
+
+export type renderI = {
     canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D
-}
-
-export interface imageD {
-    [key: string]: HTMLImageElement
 }

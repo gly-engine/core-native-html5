@@ -5,6 +5,10 @@ export function native_draw_start(render: renderI) {
     render.ctx.clearRect(0, 0, render.canvas.width, render.canvas.height)
 }
 
+export function native_draw_flush(render: renderI) {
+
+}
+
 export function native_draw_clear(render: renderI, color: number, x: number, y: number, w: number, h: number) {
     render.ctx.fillStyle = '#' + hexToStr(color)
     render.ctx.fillRect(x, y, w, h)
@@ -55,8 +59,4 @@ export function native_draw_poly2(render: renderI, mode: number, verts: Array<nu
         },
         () => render.ctx.stroke()
     ])[mode]()
-}
-
-export function native_draw_poly(render: renderI, mode: number, verts: Array<number>) {
-    native_draw_poly2(render, mode, verts, 0, 0, 1, 0, 1, 1)
 }

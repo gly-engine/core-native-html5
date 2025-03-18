@@ -90,7 +90,7 @@ async function install(hv: HyperVisorWasmoon) {
     }
 }
 
-async function startup(engine: {}, ) {
+async function startup(hv: {}) {
 
 }
 

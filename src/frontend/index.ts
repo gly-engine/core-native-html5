@@ -24,18 +24,18 @@ class EventEmitter {
     }
 }
 
-export function create_lua_code(engine_code: string | undefined) {
+export function create_code(name: string, src: string | undefined) {
     return async () => {
-        if (!engine_code || engine_code.length == 0) {
-            throw new Error('missing engine!')
-        }
-        
-        if (!engine_code.includes('\n')) {
-            const request = await fetch(engine_code)
-            return await request.text()
-        }
-    
-        return engine_code
+      if (!src || src.length == 0) {
+          throw new Error(`missing code: ${name}!`)
+      }
+      
+      if (!src.includes('\n')) {
+          const request = await fetch(src)
+          return await request.text()
+      }
+  
+      return src
     }    
 }
 
@@ -43,11 +43,13 @@ export function create_emiter() {
     return new EventEmitter
 }
 
-export function create_frontend(bus: EventEmitter) {
-    return {
-        native_callback_loop: (dt: number) => bus.emit('loop', dt),
-        native_callback_draw: () => bus.emit('draw'),
-        native_callback_init: (width: number, height: number, game: unknown) => bus.emit('init', width, height, game),
-        native_callback_keyboard: (key: string, value: boolean) => bus.emit('keyboard', key, value)
-    };
+export async function create_frontend(bus: EventEmitter, code: string | unknown) {
+  const game = await (typeof code === 'string'? (create_code('game.lua', code)()): code)
+
+  return {
+      native_callback_loop: (dt: number) => bus.emit('loop', dt),
+      native_callback_draw: () => bus.emit('draw'),
+      native_callback_init: (width: number, height: number) => bus.emit('init', width, height, game),
+      native_callback_keyboard: (key: string, value: boolean) => bus.emit('keyboard', key, value)
+  };
 }

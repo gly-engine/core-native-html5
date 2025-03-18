@@ -43,6 +43,7 @@ export function create_backend(canvas: HTMLCanvasElement) {
         native_text_font_name: (name: string) => backend_text.native_text_font_name(render, text_cache, name),
         native_text_font_default: (id: number) => backend_text.native_text_font_default(render, text_cache, id),
         native_text_font_size: (size: number) => backend_text.native_text_font_size(render, text_cache, size),
+        native_text_font_previous: (size: number) => backend_text.native_text_font_previous(render, text_cache),
         native_text_print: (x: number, y: number, text: string) => backend_text.native_text_print(render, text_cache, x, y, text),
         native_text_mensure: (text: string) => backend_text.native_text_mensure(render, text_cache, text),
         native_image_draw: (x: number, y: number, src: string) => backend_image.native_image_draw(render, image_cache, src, x, y),

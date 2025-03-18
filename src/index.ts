@@ -1,14 +1,19 @@
-import { create_emiter, create_frontend, create_lua_code } from './frontend'
+import { create_emiter, create_frontend, create_code } from './frontend'
 import { create_backend, create_canvas} from './backend'
 import { get_driver } from './driver'
 import { libI } from './type'
 
 export default (() => {
+    let cfg_game: string | unknown
     let cfg_engine: string | undefined
     let cfg_libs: Array<{driver: libI, args: unknown[]}> = []
     let cfg_canvas: HTMLCanvasElement | string | undefined
 
     const methods = () => ({
+        set_game: (game_code: string | unknown) => {
+            cfg_game = game_code
+            return methods()
+        },
         set_engine: (engine_code: string) => {
             cfg_engine = engine_code
             return methods()
@@ -26,11 +31,11 @@ export default (() => {
         },
         build: async () => {
             const vm = {}
-            const lua_engine = create_lua_code(cfg_engine)
+            const lua_engine = create_code('engine.lua', cfg_engine)
             const canvas = create_canvas(cfg_canvas)
             const backend = create_backend(canvas)
             const frontbus = create_emiter()
-            const frontend = create_frontend(frontbus)
+            const frontend = await create_frontend(frontbus, cfg_game)
             const hypervisor = {
                 vm, lua_engine, backend, frontend, frontbus
             }

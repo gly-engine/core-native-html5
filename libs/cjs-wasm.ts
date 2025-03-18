@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         .set_el_canvas('#gameCanvas')
         .set_library('wasmoon')
         .set_library('fengari', fengari)
+        .set_library('resize', {widescreen: true})
         .set_library('runtime')
         .set_library('keyboard')
         .set_engine('https://cdn.jsdelivr.net/npm/@gamely/gly-engine-lite')

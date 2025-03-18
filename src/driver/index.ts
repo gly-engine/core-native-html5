@@ -1,11 +1,13 @@
 import { libI } from "../type";
 import check from "./check";
+import resize from "./resize";
 import wasmoon from "./wasmoon";
 import fengari from "./fengari";
 import runtime from "./runtime";
 import keyboard from "./keyboard";
 
 const driver_map = {
+    resize,
     fengari,
     wasmoon,
     runtime,

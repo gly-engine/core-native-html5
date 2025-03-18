@@ -35,7 +35,7 @@ export default (() => {
             const canvas = create_canvas(cfg_canvas)
             const backend = create_backend(canvas)
             const frontbus = create_emiter()
-            const frontend = await create_frontend(frontbus, cfg_game)
+            const frontend = await create_frontend(frontbus, cfg_game, canvas)
             const hypervisor = {
                 vm, lua_engine, backend, frontend, frontbus
             }

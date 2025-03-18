@@ -18,7 +18,7 @@ async function startup(hv: {frontend: Awaited<ReturnType<typeof create_frontend>
         window.requestAnimationFrame(tick)
     }
 
-    hv.frontend.native_callback_init(1280, 720)
+    hv.frontend.native_callback_init()
     window.requestAnimationFrame(tick)
 }
 

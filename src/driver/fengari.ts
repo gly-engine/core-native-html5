@@ -3,7 +3,8 @@ type HyperVisorFengari = {
     backend: {},
     frontbus: {
         on: (key: string, func: unknown) => {}
-    }
+    },
+    fengari: any
 }
 
 async function prepare(hv: HyperVisorFengari, fengari: any) {
@@ -12,6 +13,7 @@ async function prepare(hv: HyperVisorFengari, fengari: any) {
     }
 
     fengari.lualib.luaL_openlibs(fengari.L);
+    hv.fengari = fengari
 }
 
 async function install(hv: HyperVisorFengari, fengari: any) {

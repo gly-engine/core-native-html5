@@ -1,18 +1,30 @@
 # core-native-html5
-create your own game-engine with just javascript
+create your own game-engine with just javascript or lua.
+
+### Engine writen in lua
 
 ```js
-const gly = core_native_html5()
-    .set_unfocus_pause(true)
-    .set_widescreen(true)
+const gly = await core_native_html5()
+    .set_el_root('main')
+    .set_el_canvas('#gameCanvas')
     .set_library('wasmoon', LuaFactory, LuaMultiReturn)
     .set_library('fengari', fengari)
+    .set_library('fengari-rxi', 'rxi.lua')
+    .set_library('fengari-or-wasmoon-check')
     .set_library('videojs', videojs)
-    .set_el_canvas('#my-game-canva')
-    .set_el_debug('#output-message')
+    .set_library('runtime')
+    .set_library('keyboard')
     .set_engine('engine.lua')
     .set_game('game.lua')
-    .add_driver(core_native_html5().driver_input())
-    .add_driver(core_native_html5().driver_tick())
+    .build()
+```
+
+### Engine writen in javascript
+
+```js
+const gly = await core_native_html5()
+    .set_el_canvas('#gameCanvas')
+    .set_library('runtime')
+    .set_library('keyboard')
     .build()
 ```

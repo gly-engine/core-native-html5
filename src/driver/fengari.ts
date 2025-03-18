@@ -7,10 +7,18 @@ type HyperVisorFengari = {
 }
 
 async function prepare(hv: HyperVisorFengari, fengari: any) {
+    if (!fengari) {
+        return;
+    }
+
     fengari.lualib.luaL_openlibs(fengari.L);
 }
 
 async function install(hv: HyperVisorFengari, fengari: any) {
+    if (!fengari) {
+        return;
+    }
+
     const httplua = (reqid: number, key: string, data?: unknown) => {
         const params = data !== undefined? 3: 2
         fengari.lua.lua_getglobal(fengari.L, fengari.to_luastring('native_callback_http'))

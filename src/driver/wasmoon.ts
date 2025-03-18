@@ -14,11 +14,19 @@ type HyperVisorWasmoon = {
 }
 
 async function prepare(hv: HyperVisorWasmoon, LuaFactory: new () => LuaFactory) {
+    if (!LuaFactory) {
+        return;
+    }
+
     hv.vm.factory = new LuaFactory()
     hv.vm.lua = await hv.vm.factory.createEngine()
 }
 
-async function install(hv: HyperVisorWasmoon) {
+async function install(hv: HyperVisorWasmoon, LuaFactory: new () => LuaFactory) {
+    if (!LuaFactory) {
+        return;
+    }
+
     for (const key in hv.backend) {
         hv.vm.lua.global.set(key, hv.backend[key])
     }

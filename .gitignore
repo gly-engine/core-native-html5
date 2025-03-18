@@ -137,3 +137,6 @@ bun.lock
 # Trash Files
 .DS_Store
 Thumbs.db
+
+# Test HTML
+index.html

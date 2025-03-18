@@ -4,9 +4,23 @@ import * as backend_image from './image.ts'
 import * as backend_media from './media.ts'
 import * as backend_text from './text.ts'
 import * as backend_system from './system.ts'
-import { renderI } from '../types.ts'
+import { renderI } from '../type.ts'
 
-export default function (canvas: HTMLCanvasElement) {
+export function create_canvas(canvas: HTMLCanvasElement | string | undefined) {
+    if (typeof canvas == 'object') {
+        return canvas
+    }
+    if (typeof canvas == 'string') {
+        const el = document.querySelector(canvas)
+        if (!el) {
+            throw new Error(`element dont exist: ${canvas}`)
+        }
+        return el as HTMLCanvasElement
+    }
+    return document.createElement('canvas')
+}
+
+export function create_backend(canvas: HTMLCanvasElement) {
     const text_cache = {name: 'sans', size: 5, old: {name: '', size: 0}}
     const image_cache = {}
     const media_cache = []

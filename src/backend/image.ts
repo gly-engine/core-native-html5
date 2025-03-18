@@ -1,4 +1,4 @@
-import { renderI, imageD } from "../types";
+import { renderI, imageD } from "../type";
 import { blockFunc } from "../util";
 
 async function load_image(src: string) {

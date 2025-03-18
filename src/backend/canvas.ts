@@ -1,5 +1,5 @@
 import { hexToStr } from '../util.ts'
-import { renderI } from '../types.ts'
+import { renderI } from '../type'
 
 export function native_draw_start(render: renderI) {
     render.ctx.clearRect(0, 0, render.canvas.width, render.canvas.height)

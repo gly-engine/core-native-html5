@@ -14,3 +14,9 @@ export type renderI = {
     canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D
 }
+
+export type libI = {
+    prepare: (engine: {}, ...args: Array<unknown>) => Promise<void>,
+    install: (engine: {}, ...args: Array<unknown>) => Promise<void>,
+    startup: (engine: {}, ...args: Array<unknown>) => Promise<void>
+}

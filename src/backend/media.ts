@@ -1,4 +1,4 @@
-import { mediaD } from "../types";
+import { mediaD } from "../type";
 
 export function native_media_bootstrap(mixer: mediaD, mediaid: number, mediatype: string) {
     if (mediaid != 0 && mediatype == 'video') {

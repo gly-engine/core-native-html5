@@ -9,6 +9,7 @@
     "bugs": "https://github.com/gamelly/gly-engine/issues",
     "description": "create your own game-engine with just javascript.",
     "main": "dist/index.js",
+    "types": "src/types.d.ts",
     "keywords": [
         "game engine",
         "game",
@@ -19,6 +20,9 @@
         "test": "bun test"
     },
     "devDependencies": {
-      "bun": "^1.2.4"
+        "bun": "^1.2.4"
+    },
+    "dependencies": {
+        "wasmoon": "^1.16.0"
     }
 }

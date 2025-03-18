@@ -1,4 +1,4 @@
-import { renderI, fontI } from "../types";
+import { renderI, fontI } from "../type";
 
 function font_apply_if_changes(render: renderI, font: fontI){
     if (font.name != font.old.name || font.size != font.old.size) {

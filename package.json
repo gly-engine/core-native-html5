@@ -20,9 +20,7 @@
         "test": "bun test"
     },
     "devDependencies": {
+        "wasmoon": "^1.16.0",
         "bun": "^1.2.4"
-    },
-    "dependencies": {
-        "wasmoon": "^1.16.0"
     }
 }

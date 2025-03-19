@@ -20,15 +20,11 @@ export function create_canvas(canvas: HTMLCanvasElement | string | undefined) {
     return document.createElement('canvas')
 }
 
-export function create_backend(canvas: HTMLCanvasElement) {
+export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+    const render = {canvas, ctx}
     const text_cache = {name: 'sans', size: 5, old: {name: '', size: 0}}
     const image_cache = {}
     const media_cache = []
-
-    const render = {
-        canvas: canvas,
-        ctx: canvas.getContext('2d')
-    } as renderI;
 
     return {
         native_http_handler: (self) =>backend_http.native_http_handler(self),

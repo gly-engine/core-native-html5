@@ -26,6 +26,7 @@ const gly = await core_native_html5()
     .set_library('wasmoon', LuaFactory, LuaMultiReturn)
     .set_library('runtime', {uptime: false})
     .set_library('keyboard')
+    .set_library('resize')
     .set_engine('https://cdn.jsdelivr.net/npm/@gamely/gly-engine@latest/dist/main.lua')
     .set_game('game.lua')
     .build()
@@ -33,7 +34,7 @@ const gly = await core_native_html5()
 
 ### Love2D
 
-support wasmoon and feangari!
+support wasmoon and fengari!
 
  * <https://www.npmjs.com/package/@gamely/love-engine>
 
@@ -57,6 +58,7 @@ const gly = await core_native_html5()
     .set_library('fengari', fengari)
     .set_library('runtime')
     .set_library('keyboard', keymap)
+    .set_library('resize')
     .set_engine('https://cdn.jsdelivr.net/npm/@gamely/love-engine@latest/dist/main.lua')
     .set_game('main.lua')
     .build()
@@ -79,6 +81,7 @@ const gly = await core_native_html5()
     .set_library('videojs', videojs)
     .set_library('runtime')
     .set_library('keyboard')
+    .set_library('resize')
     .set_engine('engine.lua')
     .set_game('game.lua')
     .build()
@@ -104,4 +107,51 @@ function tick() {
 
 gly.frontend.native_callback_init()
 tick();
+```
+
+### Custom engine javascript
+
+```js
+function awesome_game(loop, draw, keys) {
+    let color = 0x00FFFFFF
+
+    loop.callback(() => {
+
+    })
+    draw.callback(() => {
+        draw.color(0x000000FF)
+        draw.rect(0, 0, 0, draw.width, draw.heigth)
+        draw.color(color)
+        draw.rect(0, 10, 20, 30, 40)
+    })
+    keys.callback((key, press) => {
+        if (key == 'a' && press) {
+            color = 0xFF0000FF
+        }
+    })
+}
+```
+
+```js
+function awesome_engine(game) {
+    core_native_html5().set_el_canvas('#game').set_library('keyboard').set_library('runtime').build().then((gly) => {
+        const loop = {
+            callback: (f) => gly.on('loop', f)
+        }
+        const draw = {
+            color: gly.backend.native_draw_color,
+            rect: gly.backend.native_draw_rect,
+            callback: (f) => gly.on('draw', f)
+        }
+        const keys = {
+            callback: (f) => gly.on('keyboard', f)
+        }
+    
+        game(loop, draw, keys)
+    })
+}
+```
+
+```js
+awesome_engine(awesome_game)
 ```

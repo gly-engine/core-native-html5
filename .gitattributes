@@ -1,1 +1,2 @@
+*.js linguist-generated
 *.ts linguist-language=Typescript

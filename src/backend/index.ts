@@ -38,7 +38,6 @@ export function create_backend(canvas: HTMLCanvasElement) {
         native_draw_clear: (color: number, x:number, y: number, w: number, h: number) => backend_canvas.native_draw_clear(render, color, x, y, w, h),
         native_draw_rect: (mode: number, x:number, y: number, w: number, h: number) => backend_canvas.native_draw_rect(render, mode, x, y, w, h),
         native_draw_line: (x1: number, y1: number, x2: number, y2: number) => backend_canvas.native_draw_line(render, x1, y1, x2, y2),
-        native_draw_poly: (mode: number, verts: Array<number>) => backend_canvas.native_draw_poly2(render, mode, verts, 0, 0, 1, 0, 0, 0),
         native_draw_poly2: (mode: number, verts: Array<number>, x: number, y:number, scale:number, angle:number, ox:number, oy:number) => backend_canvas.native_draw_poly2(render, mode, verts, x, y, scale, angle, ox, oy),
         native_text_font_name: (name: string) => backend_text.native_text_font_name(render, text_cache, name),
         native_text_font_default: (id: number) => backend_text.native_text_font_default(render, text_cache, id),
@@ -55,5 +54,16 @@ export function create_backend(canvas: HTMLCanvasElement) {
         native_media_play: (mediaid: number, channel: number) => backend_media.native_media_play(media_cache, mediaid, channel),
         native_media_pause: (mediaid: number, channel: number) => backend_media.native_media_pause(media_cache, mediaid, channel),
         native_media_time: (mediaid: number, channel: number, time: number) => backend_media.native_media_time(media_cache, mediaid, channel, time),
+        // for legacy compatibility:
+        native_draw_poly: (mode: number, verts: Array<number>, x = 0, y = 0, scale = 1, angle = 0, ox = 0, oy = 0) =>  backend_canvas.native_draw_poly2(render, mode, verts, x, y, scale, angle, ox, oy),
+        native_draw_image: (x: number, y: number, src: string) => backend_image.native_image_draw(render, image_cache, src, x, y),
+        native_draw_text: (x: number | string, y: number, text: string) => {
+            typeof x == 'number' && text && backend_text.native_text_print(render, text_cache, x, y, text)        
+            return backend_text.native_text_mensure(render, text_cache, text ?? x)
+        },
+        native_draw_font: (name: string, size: number) => {
+            backend_text.native_text_font_name(render, text_cache, name)
+            backend_text.native_text_font_size(render, text_cache, size)
+        },
     };
 }

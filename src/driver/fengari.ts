@@ -4,16 +4,19 @@ type HyperVisorFengari = {
     frontbus: {
         on: (key: string, func: unknown) => {}
     },
-    fengari: any
+    vm: {
+        lua: unknown,
+        fengari: any
+    }
 }
 
 async function prepare(hv: HyperVisorFengari, fengari: any) {
-    if (!fengari) {
+    if (!fengari || hv.vm.lua) {
         return;
     }
 
     fengari.lualib.luaL_openlibs(fengari.L);
-    hv.fengari = fengari
+    hv.vm.fengari = fengari
 }
 
 async function install(hv: HyperVisorFengari, fengari: any) {

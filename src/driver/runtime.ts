@@ -7,11 +7,11 @@ async function install(hv: {}) {
 
 }
 
-async function startup(hv: {frontend: Awaited<ReturnType<typeof create_frontend>>}) {
+async function startup(hv: {frontend: Awaited<ReturnType<typeof create_frontend>>}, cfg = {uptime: false}) {
     let uptime = performance.now()
     function tick() {
         let new_time = performance.now()
-        const dt = new_time - uptime
+        const dt = cfg.uptime? new_time: (new_time - uptime)
         uptime = new_time
         hv.frontend.native_callback_loop(dt)
         hv.frontend.native_callback_draw()

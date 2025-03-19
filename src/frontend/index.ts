@@ -48,7 +48,7 @@ export async function create_frontend(bus: EventEmitter, code: string | unknown,
   const game = await (typeof code === 'string'? (create_code('game.lua', code)()): code)
 
   return {
-      native_callback_loop: (dt: number) => bus.emit('loop', dt),
+      native_callback_loop: (dt = 16) => bus.emit('loop', dt),
       native_callback_draw: () => bus.emit('draw'),
       native_callback_init: (width?: number, height?: number) => {
         if (!width || !height) {
@@ -65,6 +65,6 @@ export async function create_frontend(bus: EventEmitter, code: string | unknown,
           bus.emit('resize', width, height)
         }
       },
-      native_callback_keyboard: (key: string, value: boolean) => bus.emit('keyboard', key, value)
+      native_callback_keyboard: (key: string, value: boolean | number) => bus.emit('keyboard', key, value)
   };
 }

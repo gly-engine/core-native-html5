@@ -8,7 +8,7 @@ async function install(hv: {}) {
 
 }
 
-async function startup(hv: {frontend: Awaited<ReturnType<typeof create_frontend>>}, keymap: [] | undefined) {  
+async function startup(hv: {frontend: Awaited<ReturnType<typeof create_frontend>>}, keymap: [] | string | undefined) {  
     document.addEventListener('keydown', keyboard_trigger(hv.frontend.native_callback_keyboard, keymap))
     document.addEventListener('keyup', keyboard_trigger(hv.frontend.native_callback_keyboard, keymap))
 }

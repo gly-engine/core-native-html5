@@ -9,9 +9,9 @@ export function native_draw_flush(render: renderI) {
 
 }
 
-export function native_draw_clear(render: renderI, color: number, x: number, y: number, w: number, h: number) {
+export function native_draw_clear(render: renderI, color: number, x?: number, y?: number, w?: number, h?: number) {
     render.ctx.fillStyle = '#' + hexToStr(color)
-    render.ctx.fillRect(x, y, w, h)
+    render.ctx.fillRect(x ?? 0, y ?? 0, w ?? render.canvas.width, h ?? render.canvas.height)
 }
 
 export function native_draw_color(render: renderI, color: number) {

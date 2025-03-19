@@ -5,7 +5,7 @@
 
 > create your own game-engine with just javascript or lua.
 
-### Gly Engine
+## Gly Engine
 
 replace `@latest` with the engine version you want.
 
@@ -32,7 +32,7 @@ const gly = await core_native_html5()
     .build()
 ```
 
-### Love2D
+## Love2D
 
 support wasmoon and fengari!
 
@@ -64,7 +64,7 @@ const gly = await core_native_html5()
     .build()
 ```
 
-### Engine writen in lua
+## Engine writen in lua
 
  * auto detect fengari/wasmoon
  * fetch json rxi library to fengari
@@ -87,7 +87,7 @@ const gly = await core_native_html5()
     .build()
 ```
 
-### Baremetal javascript
+## Baremetal javascript
 
 ```js
 const gly = await core_native_html5()
@@ -109,7 +109,7 @@ gly.frontend.native_callback_init()
 tick();
 ```
 
-### Custom engine javascript
+## Custom engine javascript
 
 ```js
 function awesome_game(loop, draw, keys) {
@@ -119,8 +119,6 @@ function awesome_game(loop, draw, keys) {
 
     })
     draw.callback(() => {
-        draw.color(0x000000FF)
-        draw.rect(0, 0, 0, draw.width, draw.heigth)
         draw.color(color)
         draw.rect(0, 10, 20, 30, 40)
     })

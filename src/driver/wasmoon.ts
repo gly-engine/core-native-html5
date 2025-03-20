@@ -47,6 +47,16 @@ async function install(hv: HyperVisorWasmoon, _: any, LuaMultiReturn: { from: (a
         poly2: hv.backend.native_draw_poly
     })
 
+    if (window.location.protocol.includes('http')) {
+        hv.vm.lua.global.set('native_http_force_protocol',  window.location.protocol == 'https:'? 'https': 'http')
+    }
+
+    hv.vm.lua.global.set('native_http_has_ssl', true)
+    hv.vm.lua.global.set('native_json_encode', JSON.stringify)
+    hv.vm.lua.global.set('native_json_decode', JSON.parse)
+    hv.vm.lua.global.set('native_base64_encode', atob)
+    hv.vm.lua.global.set('native_base64_decode', btoa)
+
     await hv.vm.lua.doString(await hv.lua_engine())
 
     for (const key in hv.frontend) {

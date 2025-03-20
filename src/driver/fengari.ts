@@ -1,3 +1,5 @@
+import { create_code } from "../frontend"
+
 type HyperVisorFengari = {
     lua_engine: () => Promise<string>
     backend: {},
@@ -10,6 +12,19 @@ type HyperVisorFengari = {
     }
 }
 
+async function prepare_jsonrxi(hv: HyperVisorFengari, json_lib_rxi: string) {
+    if (!hv.vm.fengari) {
+        return;
+    }
+
+    const pseudonym = 'jsonrxi.lua'
+    const lua_lib = await create_code(pseudonym, json_lib_rxi)()
+    const lua_code = lua_lib.replace('json.encode', 'native_json_encode').replace('json.decode', 'native_json_decode')
+    const lua_buffer = hv.vm.fengari.to_luastring(lua_code)
+    hv.vm.fengari.lauxlib.luaL_loadbuffer(hv.vm.fengari.L, lua_buffer, lua_code.length, pseudonym);
+    hv.vm.fengari.lua.lua_pcall(hv.vm.fengari.L, 0, 0, 0);
+}
+
 async function prepare(hv: HyperVisorFengari, fengari: any) {
     if (!fengari || hv.vm.lua) {
         return;
@@ -20,7 +35,7 @@ async function prepare(hv: HyperVisorFengari, fengari: any) {
 }
 
 async function install(hv: HyperVisorFengari, fengari: any) {
-    if (!fengari) {
+    if (!hv.vm.fengari) {
         return;
     }
 
@@ -279,6 +294,11 @@ async function startup(hv: HyperVisorFengari, fengari: any) {
 }
 
 export default {
+    jsonrxi: {
+        prepare: prepare_jsonrxi,
+        install: async (hv: {})=>{},
+        startup: async (hv: {})=>{}
+    },
     prepare,
     install,
     startup

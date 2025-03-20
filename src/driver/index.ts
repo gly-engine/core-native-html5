@@ -14,7 +14,8 @@ const driver_map = {
     keyboard,
     'wasmoon-check': check.wasmoon,
     'fengari-check': check.fengari,
-    'fengari-or-wasmoon-check': check.fengari_wasmoon
+    'fengari-or-wasmoon-check': check.fengari_wasmoon,
+    'fengari-jsonrxi': fengari.jsonrxi
 }
 
 export function get_driver(driver_name: string) {

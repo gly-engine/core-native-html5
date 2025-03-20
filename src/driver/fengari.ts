@@ -255,7 +255,7 @@ async function install(hv: HyperVisorFengari, fengari: any) {
     fengari.lua.lua_pushboolean(fengari.L, true)
     fengari.lua.lua_setglobal(fengari.L, fengari.to_luastring('native_http_has_ssl'))
 
-    fengari.lua.lua_pushstring(fengari.L, fengari.to_luastring(window.location.protocol == 'https:'? 'https': 'http'))
+    fengari.lua.lua_pushstring(fengari.L, fengari.to_luastring(window.location.protocol == 'http:'? 'http': 'https'))
     fengari.lua.lua_setglobal(fengari.L, fengari.to_luastring('native_http_force_protocol'))
 
     const lua_engine = await hv.lua_engine()

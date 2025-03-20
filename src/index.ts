@@ -37,14 +37,15 @@ export default (() => {
         },
         build: async () => {
             const vm = {}
+            const pause_reasons = {}
             const lua_engine = create_code('engine.lua', cfg_engine)
             const canvas = create_canvas(cfg_canvas)
             const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
             const backend = create_backend(canvas, ctx)
             const frontbus = create_emiter()
-            const frontend = await create_frontend(frontbus, cfg_game, canvas)
+            const frontend = await create_frontend(frontbus, cfg_game, canvas, pause_reasons)
             const hypervisor = {
-                vm, lua_engine, backend, frontend, frontbus
+                vm, lua_engine, backend, frontend, frontbus, pause_reasons
             }
 
             await Promise.all(cfg_libs.map(lib => lib.driver.prepare(hypervisor, ...lib.args)))

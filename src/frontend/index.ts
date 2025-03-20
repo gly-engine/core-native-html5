@@ -1,3 +1,5 @@
+import { is_paused, unpaused_call } from "./pause";
+
 class EventEmitter {
     private events: { [key: string]: Function[] } = {};
   
@@ -43,28 +45,46 @@ export function create_emiter() {
     return new EventEmitter
 }
 
-export async function create_frontend(bus: EventEmitter, code: string | unknown, canvas: HTMLCanvasElement) {
+export async function create_frontend(bus: EventEmitter, code: string | unknown, canvas: HTMLCanvasElement, pause_reasons: Record<string, boolean>) {
   const cfg = {init: false}
   const game = await (typeof code === 'string'? (create_code('game.lua', code)()): code)
 
+  const bus_emit_resize = unpaused_call(pause_reasons, (width, height) => {
+    bus.emit('resize', width, height)
+  })
+
   return {
-      native_callback_loop: (dt = 16) => bus.emit('loop', dt),
-      native_callback_draw: () => bus.emit('draw'),
+      native_callback_loop: (dt = 16) => {
+        if (!is_paused(pause_reasons)) {
+          bus.emit('loop', dt)
+        }
+      },
+      native_callback_draw: () => {
+        if (!is_paused(pause_reasons)) {
+          bus.emit('draw')
+        }
+      },
       native_callback_init: (width?: number, height?: number) => {
         if (!width || !height) {
           width = canvas.width
           height = canvas.height
         }
-        bus.emit('init', width, height, game)
+        if (!is_paused(pause_reasons)) {
+          bus.emit('init', width, height, game)
+        }
         cfg.init = true
       },
       native_callback_resize: (width: number, height: number) => {
         canvas.width = width
         canvas.height = height
         if (cfg.init) {
-          bus.emit('resize', width, height)
+          bus_emit_resize(width, height);
         }
       },
-      native_callback_keyboard: (key: string, value: boolean | number) => bus.emit('keyboard', key, value)
+      native_callback_keyboard: (key: string, value: boolean | number) => {
+        if (!is_paused(pause_reasons)) {
+          bus.emit('keyboard', key, value)
+        }
+      }
   };
 }

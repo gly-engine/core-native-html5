@@ -23,14 +23,17 @@
         "engine"
     ],
     "scripts": {
-        "build:game": "bun build --external=module --outdir=dist --entrypoint index.html --chunk-naming '[dir]/[name].[ext]'",
-        "build:html": "bun build lib/browser.js --outfile dist/index.js",
+        "postbuild:browser": "browserify dist/index.js -o dist/index.js -t [babelify]",
+        "build:browser": "bun build lib/browser.js --outfile dist/index.js",
         "build:cjs": "bun build lib/common.js --format cjs --outfile dist/index.cjs.js",
         "build:mjs": "bun build src/index.ts --format esm --outfile dist/index.mjs",
-        "build": "bun run build:mjs && bun run build:cjs && bun run build:html",
+        "build": "bun run build:mjs && bun run build:cjs && bun run build:browser",
         "test": "bun test"
     },
     "devDependencies": {
+        "@babel/preset-env": "^7.26.9",
+        "babelify": "^10.0.0",
+        "browserify": "^17.0.1",
         "wasmoon": "^1.16.0",
         "bun": "^1.2.4"
     }

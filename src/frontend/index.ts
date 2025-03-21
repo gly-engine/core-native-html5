@@ -56,6 +56,7 @@ export async function create_frontend(bus: EventEmitter, code: string | unknown,
   return {
       native_callback_loop: (dt = 16) => {
         if (!is_paused(pause_reasons)) {
+          bus.emit('pad')
           bus.emit('loop', dt)
         }
       },

@@ -4,6 +4,7 @@ import resize from "./resize";
 import wasmoon from "./wasmoon";
 import fengari from "./fengari";
 import runtime from "./runtime";
+import gamepad from "./gamepad";
 import keyboard from "./keyboard";
 
 const driver_map = {
@@ -11,6 +12,7 @@ const driver_map = {
     fengari,
     wasmoon,
     runtime,
+    gamepad,
     keyboard,
     'wasmoon-check': check.wasmoon,
     'fengari-check': check.fengari,

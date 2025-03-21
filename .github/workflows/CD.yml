@@ -25,7 +25,6 @@ jobs:
           npm install
           npm run build
       - 
-        working-directory: ./dist
         run: |
           npm publish --provenance --access public
         env:

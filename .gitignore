@@ -128,3 +128,15 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# lock files
+package-lock.json
+yarn.lock
+bun.lock
+
+# Trash Files
+.DS_Store
+Thumbs.db
+
+# Test HTML
+index.html

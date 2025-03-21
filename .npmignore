@@ -1,0 +1,7 @@
+lib/
+src/
+tests/
+.github/
+.gitattributes
+.gitignore
+babel.config.json

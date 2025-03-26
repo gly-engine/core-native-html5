@@ -14,17 +14,17 @@ async function check_fengari(hv: {vm: {fengari: unknown}}) {
 
 export default {
     wasmoon: {
-        prepare: check_wasmoon,
-        install: mock,
+        prepare: mock,
+        install: check_wasmoon,
         startup: mock
     },
     fengari: {
-        prepare: check_fengari,
-        install: mock,
+        prepare: mock,
+        install: check_fengari,
         startup: mock
     },
     fengari_wasmoon: {
-        prepare: async (hv) => {
+        install: async (hv) => {
             let errors = 0;
 
             await Promise.allSettled([check_wasmoon(hv), check_fengari(hv)]).then(results => {
@@ -35,7 +35,7 @@ export default {
                 throw new Error('wamoon or fengari is required!')
             }
         },
-        install: mock,
+        prepare: mock,
         startup: mock
     }    
 }

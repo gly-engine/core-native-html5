@@ -1,11 +1,11 @@
 import { libI } from "../type";
-import check from "./check";
 import resize from "./resize";
-import wasmoon from "./wasmoon";
-import fengari from "./fengari";
 import runtime from "./runtime";
 import gamepad from "./gamepad";
 import keyboard from "./keyboard";
+import check from "./lua/check";
+import wasmoon from "./lua/wasmoon";
+import fengari from "./lua/fengari";
 import player_html5 from './players/html5'
 import player_videojs from './players/videojs'
 import player_youtube from './players/youtube'

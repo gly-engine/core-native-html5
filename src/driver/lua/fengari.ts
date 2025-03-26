@@ -1,4 +1,4 @@
-import { create_code } from "../frontend"
+import { create_code } from "../../frontend"
 
 type HyperVisorFengari = {
     lua_engine: () => Promise<string>

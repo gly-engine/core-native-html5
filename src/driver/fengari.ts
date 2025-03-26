@@ -125,13 +125,6 @@ async function install(hv: HyperVisorFengari, fengari: any) {
         func(x1, y1, x2, y2);
     });
 
-    define_lua_func('native_draw_image', (func) => {
-        const src = fengari.to_jsstring(fengari.lua.lua_tostring(fengari.L, 1));
-        const x = fengari.lua.lua_tonumber(fengari.L, 2);
-        const y = fengari.lua.lua_tonumber(fengari.L, 3);
-        func(src, x, y)
-    });
-
     define_lua_func('native_draw_poly2', (func) => {
         let i = 1;
         const mode = fengari.lua.lua_tointeger(fengari.L, 1);
@@ -188,6 +181,17 @@ async function install(hv: HyperVisorFengari, fengari: any) {
         return 1;
     });
 
+    define_lua_func('native_image_load', (func) => {
+        const src = fengari.to_jsstring(fengari.lua.lua_tostring(fengari.L, 1));
+        func(src)
+    });
+
+    define_lua_func('native_image_draw', (func) => {
+        const src = fengari.to_jsstring(fengari.lua.lua_tostring(fengari.L, 1));
+        const x = fengari.lua.lua_tonumber(fengari.L, 2);
+        const y = fengari.lua.lua_tonumber(fengari.L, 3);
+        func(src, x, y)
+    });
 
     define_lua_func('native_media_bootstrap', (func) => {
         const mediaid = fengari.lua.lua_tonumber(fengari.L, 1);

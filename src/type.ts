@@ -7,7 +7,7 @@ export type fontI = {
     }
 }
 
-export type imageD =  {[key: string]: HTMLImageElement}
+export type imageD =  {[key: string]: HTMLImageElement | null}
 export type mediaD = Array<{[key: number]: HTMLVideoElement | HTMLAudioElement }>
 
 export type renderI = {

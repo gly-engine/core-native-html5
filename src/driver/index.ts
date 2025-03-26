@@ -8,6 +8,7 @@ import gamepad from "./gamepad";
 import keyboard from "./keyboard";
 import player_html5 from './players/html5'
 import player_videojs from './players/videojs'
+import player_youtube from './players/youtube'
 
 const driver_map = {
     resize,
@@ -18,6 +19,7 @@ const driver_map = {
     keyboard,
     'player-html5': player_html5,
     'player-videojs': player_videojs,
+    'player-youtube': player_youtube,
     'wasmoon-check': check.wasmoon,
     'fengari-check': check.fengari,
     'fengari-or-wasmoon-check': check.fengari_wasmoon,

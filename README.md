@@ -66,19 +66,15 @@ const gly = await core_native_html5()
 
 ## Engine writen in lua
 
- * auto detect fengari/wasmoon
- * fetch json rxi library to fengari
- * videojs integration in `core_media_*`
-
 ```js
 const gly = await core_native_html5()
     .set_el_root('main')
     .set_el_canvas('#gameCanvas')
-    .set_library('wasmoon', LuaFactory, LuaMultiReturn)
-    .set_library('fengari', fengari)
+    .set_library('wasmoon', window.LuaFactory, window.LuaMultiReturn)
+    .set_library('fengari', window.fengari)
     .set_library('fengari-jsonrxi', 'https://cdn.jsdelivr.net/gh/rxi/json.lua/json.lua')
     .set_library('fengari-or-wasmoon-check')
-    .set_library('videojs', videojs)
+    .set_library('player-videojs', window.videojs)
     .set_library('runtime')
     .set_library('keyboard')
     .set_library('resize')

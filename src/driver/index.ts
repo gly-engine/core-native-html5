@@ -7,6 +7,7 @@ import runtime from "./runtime";
 import gamepad from "./gamepad";
 import keyboard from "./keyboard";
 import player_html5 from './players/html5'
+import player_videojs from './players/videojs'
 
 const driver_map = {
     resize,
@@ -16,6 +17,7 @@ const driver_map = {
     gamepad,
     keyboard,
     'player-html5': player_html5,
+    'player-videojs': player_videojs,
     'wasmoon-check': check.wasmoon,
     'fengari-check': check.fengari,
     'fengari-or-wasmoon-check': check.fengari_wasmoon,

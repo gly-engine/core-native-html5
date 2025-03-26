@@ -52,7 +52,7 @@ export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingCo
         native_media_time: (mediaid: number, channel: number, time: number) => backend_media.native_media_time(media_cache, mediaid, channel, time),
         // for legacy compatibility:
         native_draw_poly: (mode: number, verts: Array<number>, x = 0, y = 0, scale = 1, angle = 0, ox = 0, oy = 0) =>  backend_canvas.native_draw_poly2(render, mode, verts, x, y, scale, angle, ox, oy),
-        native_draw_image: (x: number, y: number, src: string) => backend_image.native_image_draw(render, image_cache, src, x, y),
+        native_draw_image: (src: string, x: number, y: number) => backend_image.native_image_draw(render, image_cache, src, x, y),
         native_draw_text: (x: number | string, y: number, text: string) => {
             typeof x == 'number' && text && backend_text.native_text_print(render, text_cache, x, y, text)        
             return backend_text.native_text_mensure(render, text_cache, text ?? x)

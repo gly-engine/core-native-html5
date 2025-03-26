@@ -1,7 +1,7 @@
 const mock = async (_: {}) => {}
 
-async function check_wasmoon(hv: {lua: unknown}) {
-    if (!hv.lua) {
+async function check_wasmoon(hv: {vm: {lua: unknown}}) {
+    if (!hv.vm.lua) {
         throw new Error('wasmoon is required!')
     }
 }

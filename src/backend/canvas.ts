@@ -1,5 +1,8 @@
-import { hexToStr } from '../util.ts'
 import { renderI } from '../type'
+
+function hexToStr(n: number) {
+    return (n >>> 0).toString(16).padStart(8, '0')
+}
 
 export function native_draw_start(render: renderI) {
     render.ctx.clearRect(0, 0, render.canvas.width, render.canvas.height)

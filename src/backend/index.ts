@@ -4,7 +4,6 @@ import * as backend_image from './image.ts'
 import * as backend_media from './media.ts'
 import * as backend_text from './text.ts'
 import * as backend_system from './system.ts'
-import { renderI } from '../type.ts'
 
 export function create_canvas(canvas: HTMLCanvasElement | string | undefined) {
     if (typeof canvas == 'object') {
@@ -20,11 +19,11 @@ export function create_canvas(canvas: HTMLCanvasElement | string | undefined) {
     return document.createElement('canvas')
 }
 
-export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, players: Array<never>) {
     const render = {canvas, ctx}
     const text_cache = {name: 'sans', size: 5, old: {name: '', size: 0}}
     const image_cache = {}
-    const media_cache = []
+    const media_cache = {devices: [], mixer: {}, players}
 
     return {
         native_http_handler: (self) =>backend_http.native_http_handler(self),

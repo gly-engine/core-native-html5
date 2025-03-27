@@ -1,7 +1,9 @@
 import { create_code } from "../../frontend"
 
 type HyperVisorFengari = {
-    lua_engine: () => Promise<string>
+    code: {
+        engine: () => Promise<string>
+    },
     backend: {},
     frontbus: {
         on: (key: string, func: unknown) => {}
@@ -262,7 +264,7 @@ async function install(hv: HyperVisorFengari, fengari: any) {
     fengari.lua.lua_pushstring(fengari.L, fengari.to_luastring(window.location.protocol == 'http:'? 'http': 'https'))
     fengari.lua.lua_setglobal(fengari.L, fengari.to_luastring('native_http_force_protocol'))
 
-    const lua_engine = await hv.lua_engine()
+    const lua_engine = await hv.code.engine()
     fengari.lauxlib.luaL_loadbuffer(fengari.L, fengari.to_luastring(lua_engine), lua_engine.length, 'engine');
     fengari.lua.lua_pcall(fengari.L, 0, 0, 0);
 

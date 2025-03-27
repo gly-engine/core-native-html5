@@ -4,6 +4,9 @@ import { is_paused, pause, resume } from "./pause";
 import { create_frontend } from "../frontend";
 
 type HyperVisorEngine = {
+    code: {
+        game: string | object
+    },
     frontbus: {
         on: (key: string, func: unknown) => {}
     },
@@ -18,9 +21,11 @@ export async function create_engine(hv: HyperVisorEngine, canvas: HTMLCanvasElem
         backend: hv.backend,
         pause: (motive: string) => {
             pause(hv.pause_reasons, motive)
+            return methods()
         },
         resume: (motive: string) => {
             resume(hv.pause_reasons, motive)
+            return methods()
         },
         isPaused: () => {
             return is_paused(hv.pause_reasons)
@@ -30,6 +35,14 @@ export async function create_engine(hv: HyperVisorEngine, canvas: HTMLCanvasElem
         },
         stroke: (size: number) => {
             ctx.lineWidth = size
+            return methods()
+        },
+        setGame: (game: string | object) => {
+            const type = typeof game
+            if (!['string', 'object'].includes(type)) {
+                throw new Error(`invalid game format: ${type}`)
+            }
+            hv.code.game = game
             return methods()
         },
         on: (key: string, func: unknown) => {

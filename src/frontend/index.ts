@@ -29,12 +29,15 @@ class EventEmitter {
 export function create_code(name: string, src: string | undefined) {
     return async () => {
       if (!src || src.length == 0) {
-          throw new Error(`missing code: ${name}!`)
+          throw new Error(`missing code: ${name}`)
       }
       
       if (!src.includes('\n')) {
-          const request = await fetch(src)
-          return await request.text()
+          const response = await fetch(src)
+            if (!response.ok) {
+              throw new Error(`${response.status} code: ${name}`);
+          }
+          return await response.text()
       }
   
       return src
@@ -45,9 +48,12 @@ export function create_emiter() {
     return new EventEmitter
 }
 
-export async function create_frontend(bus: EventEmitter, code: string | unknown, canvas: HTMLCanvasElement, pause_reasons: Record<string, boolean>) {
+export async function create_frontend(bus: EventEmitter, code: {game: (() => Promise<string>) | string}, canvas: HTMLCanvasElement, pause_reasons: Record<string, boolean>) {
   const cfg = {init: false}
-  const game = await (typeof code === 'string'? (create_code('game.lua', code)()): code)
+  
+  if (typeof code.game == 'function') {
+    code.game = await code.game()
+  }
 
   const bus_emit_resize = unpaused_call(pause_reasons, (width, height) => {
     bus.emit('resize', width, height)
@@ -71,7 +77,7 @@ export async function create_frontend(bus: EventEmitter, code: string | unknown,
           height = canvas.height
         }
         if (!is_paused(pause_reasons)) {
-          bus.emit('init', width, height, game)
+          bus.emit('init', width, height, code.game)
         }
         cfg.init = true
       },

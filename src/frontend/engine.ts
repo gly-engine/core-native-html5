@@ -1,7 +1,7 @@
 
 import { create_backend } from "../backend";
 import { is_paused, pause, resume } from "./pause";
-import { create_frontend } from "../frontend";
+import { create_code, create_frontend } from "../frontend";
 
 type HyperVisorEngine = {
     code: {
@@ -27,8 +27,8 @@ export async function create_engine(hv: HyperVisorEngine, canvas: HTMLCanvasElem
             resume(hv.pause_reasons, motive)
             return methods()
         },
-        isPaused: () => {
-            return is_paused(hv.pause_reasons)
+        running: () => {
+            return !is_paused(hv.pause_reasons)
         },
         getImageData: () => {
             return ctx.getImageData(0, 0, canvas.width, canvas.height)
@@ -37,12 +37,20 @@ export async function create_engine(hv: HyperVisorEngine, canvas: HTMLCanvasElem
             ctx.lineWidth = size
             return methods()
         },
-        setGame: (game: string | object) => {
+        game: (game: string | object, not_restart = false) => {
             const type = typeof game
             if (!['string', 'object'].includes(type)) {
                 throw new Error(`invalid game format: ${type}`)
             }
-            hv.code.game = game
+            
+            if (not_restart || type === 'object') {
+                hv.code.game = game
+            } else {
+                create_code('game.lua', game as string)()
+                    .then(game => hv.code.game = game)
+                    .then(() => methods().resume('').frontend.native_callback_init())
+            }
+
             return methods()
         },
         on: (key: string, func: unknown) => {

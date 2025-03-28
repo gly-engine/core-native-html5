@@ -23,7 +23,8 @@ export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingCo
     const render = {canvas, ctx}
     const text_cache = {name: 'sans', size: 5, old: {name: '', size: 0}}
     const image_cache = {}
-    const media_cache = {devices: [], mixer: {}, players}
+    const media_cache = {devices: [], current: [], mixer: {}, players}
+    media_cache.players.push({can: () => 0} as never)
 
     return {
         native_http_handler: (self) =>backend_http.native_http_handler(self),

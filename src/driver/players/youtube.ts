@@ -4,8 +4,20 @@ function youtubeId(url: string): string | null {
     return match ? match[1] : null
 }
 
-function can(type: string, url: string) {
-    return ['video', 'youtube'].includes(type) && youtubeId(url) !== null
+function can(type: string, url: string, score: number) {
+    if (!['video', 'youtube'].includes(type)) {
+        return 0
+    }
+
+    if (url.length === 0) {
+        return 1
+    }
+    
+    if (youtubeId(url)) {
+        return 100
+    }
+    
+    return 0
 }
 
 function init(type: string, channel: number) {
@@ -65,12 +77,12 @@ function init(type: string, channel: number) {
     }
 }
 
-async function startup(hv: { media_players: Array<{ can: typeof can, init: typeof init }> }) {
+async function create_player(hv: { media_players: Array<{ can: typeof can, init: typeof init }> }) {
     hv.media_players.push({ init, can })
 }
 
 export default {
-    prepare: async () => {},
+    prepare: create_player,
     install: async () => {},
-    startup
+    startup: async () => {}
 }

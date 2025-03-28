@@ -18,11 +18,12 @@ export type mediaPlayerD = {
     resize: (x: number, y: number) => void,
     position: (x: number, y: number) => void,
     set_time: (miliseconds: number) => void,
-    can: (type: string, url: string) => boolean,
+    can: (type: string, url: string, score: number) => number,
 }
 
 export type mediaD = {
     devices: Array<string>,
+    current: mediaD["players"],
     players: Array<{
         can: mediaPlayerD["can"]
         init: (type: string, channel: number) => mediaPlayerD

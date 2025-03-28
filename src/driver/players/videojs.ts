@@ -1,5 +1,13 @@
-function can(type: string, url: string) {
-    return ['video', 'stream'].includes(type)
+function can(type: string, url: string, score: number) {
+    if (!['video', 'stream'].includes(type)) {
+        return 0;
+    }
+
+    if (/\.(m3u8|mpd)$/i.test(url)) {
+        return score + 40
+    }
+
+    return score + 20
 }
 
 function init(videojslib: any, type: string, channel: number) {
@@ -50,20 +58,20 @@ function init(videojslib: any, type: string, channel: number) {
             el_media.style.top = `${y}px`
         },
         destroy: () => {
+            el_media.remove()
             player.dispose()
-            el_root.removeChild(el_media)
         }
     }
 }
 
-async function startup(hv: { media_players: Array<{ can: typeof can, init: (a: string, b: number) => void }> }, videojslib: any) {
+async function create_player(hv: { media_players: Array<{ can: typeof can, init: (a: string, b: number) => void }> }, videojslib: any) {
     if (videojslib) {
         hv.media_players.push({can, init: (a: string, b: number) => init(videojslib, a, b)})
     }
 }
 
 export default {
-    prepare: async () => {},
+    prepare: create_player,
     install: async () => {},
-    startup: startup
+    startup: async () => {}
 }

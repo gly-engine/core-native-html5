@@ -11,12 +11,16 @@ function set_time(el: HTMLVideoElement | HTMLAudioElement) {
     }
 }
 
-function can(type: string, url: string) {
-    return ['video', 'audio'].includes(type)
+function can(type: string, url: string, score: number) {
+    if (!['video', 'audio', 'music', 'sfx'].includes(type)) {
+        return 0;
+    }
+
+    return score + 20;
 }
 
-function init(type: 'video' | 'audio', channel: number) {
-    const el_media = document.createElement(type)
+function init(type: string, channel: number) {
+    const el_media = document.createElement(type === 'video'? 'video': 'audio')
     const el_root = document.querySelector('main') as HTMLElement
 
     is_video(type, () => el_media.style.zIndex = `${-channel -1}`)()
@@ -47,17 +51,17 @@ function init(type: 'video' | 'audio', channel: number) {
             el_media.style.top = `${y}px`
         }),        
         destroy: () => {
-            el_root.removeChild(el_media)
+            el_media.remove()
         }
     }
 }
 
-async function startup (hv: {media_players: Array<{can: typeof can, init: typeof init}>}) {
+async function create_player(hv: {media_players: Array<{can: typeof can, init: typeof init}>}) {
     hv.media_players.push({init, can})
 }
 
 export default {
-    prepare: async () => {},
+    prepare: create_player,
     install: async () => {},
-    startup
+    startup: async () => {}
 }

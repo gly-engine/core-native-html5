@@ -139,4 +139,6 @@ bun.lock
 Thumbs.db
 
 # Test HTML
+*.js
+!lib/*.js
 index.html

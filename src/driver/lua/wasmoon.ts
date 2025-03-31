@@ -1,9 +1,11 @@
 import type { LuaEngine, LuaFactory } from "wasmoon";
-import { create_backend } from "../backend";
-import { create_frontend } from "../frontend";
+import { create_backend } from "../../backend";
+import { create_frontend } from "../../frontend";
 
 type HyperVisorWasmoon = {
-    lua_engine: () => Promise<string>
+    code: {
+        engine: () => Promise<string>
+    },
     frontbus: {
         on: (key: string, func: unknown) => {}
     },
@@ -54,7 +56,7 @@ async function install(hv: HyperVisorWasmoon, _: any, LuaMultiReturn: { from: (a
     hv.vm.lua.global.set('native_base64_encode', atob)
     hv.vm.lua.global.set('native_base64_decode', btoa)
 
-    await hv.vm.lua.doString(await hv.lua_engine())
+    await hv.vm.lua.doString(await hv.code.engine())
 
     for (const key in hv.frontend) {
         hv.frontbus.on(key.replace(/^native_callback_/, ''), hv.vm.lua.global.get(key))

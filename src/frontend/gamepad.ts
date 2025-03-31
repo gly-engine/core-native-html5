@@ -1,20 +1,4 @@
-const default_gamepadmap: Record<string, Array<string>> = {
-    pads: ['a', 'b', 'c', 'd', 'a', 'b', 'c', 'd', 'menu', 'menu', 'menu', 'menu', 'up', 'down', 'left', 'right'],
-    axis: ['left', 'right', 'up', 'down', 'left', 'right', 'up', 'down', 'left', 'right', 'up', 'down']
-}
-
-const alternative_gamepadmaps: Record<string, typeof default_gamepadmap> = {
-    legacy: {
-        pads: ['red', 'green', 'yellow', 'blue', 'left', 'right', 'up', 'down', 'menu'],
-        axis: ['left', 'right', 'up', 'down', 'left', 'right', 'up', 'down']
-    }
-}
-
-export function gamepad_trigger(trigger: (button: string, value: number) => void, gamepadmap: typeof default_gamepadmap | string = default_gamepadmap) {
-    if (typeof gamepadmap === 'string') {
-        gamepadmap = alternative_gamepadmaps[gamepadmap] ?? default_gamepadmap
-    }
-
+export function gamepad_trigger(trigger: (button: string, value: number) => void, gamepadmap: {axis: Array<string>, pads: Array<string>}) {
     const previousStates: Array<number> = new Array(gamepadmap.pads.length).fill(0)
     const previousAxisStates: Array<number> = new Array(gamepadmap.axis.length).fill(0)
     const deadZone = 0.2

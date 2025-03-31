@@ -5,6 +5,40 @@
 
 > create your own game-engine with just javascript or lua.
 
+### Built-in Modules
+
+| driver name     | description |
+| :-------------- | :---------- |
+| fengari         | lua vm in es6
+| wasmoon         | lua vm in wasm
+| keyboard        | inputs events
+| gamepad         | inputs events
+| runtime         | tick and draw events
+| resize          | auto resize width and height 
+| player-fake     | fake video player using html element `<canvas>`
+| player-html5    | video player using html  element `<video>`
+| player-videojs  | video player using videojs library
+| player-youtube  | video player using iframe youtube integration
+| fengari-check   | check for a lua virtual machine<br/>_(also `wasmoon-check` `fengari-or-wasmoon-check`)_
+| fengari-jsonrxi | thirdy party library json for core native api<br/>_(use string: <https://cdn.jsdelivr.net/gh/rxi/json.lua/json.lua>)_
+
+### Third-party Libraries
+
+``html
+<!-- fengari -->
+<script src="https://cdn.jsdelivr.net/npm/fengari-web@latest/dist/fengari-web.min.js"></script>
+
+<!-- wasmoon -->
+<script type="module">
+import { LuaFactory, LuaMultiReturn } from 'https://cdn.jsdelivr.net/npm/wasmoon@1.16.0/+esm'
+window.LuaFactory = LuaFactory
+window.LuaMultiReturn = LuaMultiReturn
+</script>
+
+<!-- videojs -->
+<script src="https://cdn.jsdelivr.net/npm/video.js@8.22.0/dist/video.min.js"></script>
+```
+
 ## Gly Engine
 
 replace `@latest` with the engine version you want.
@@ -13,7 +47,7 @@ replace `@latest` with the engine version you want.
  * <https://www.npmjs.com/package/@gamely/gly-engine-lite>
  * <https://www.npmjs.com/package/@gamely/gly-engine-micro>
 
-| version            | fengari |library configs |
+| version            | fengari | library configs |
 | :----------------- | :-----: | :-------------- |
 | `0.0.7`            |         | `'runtime'` `{uptime: true}`<br/>`'keyboard'` `'legacy'`
 | `0.0.8` ~ `0.0.11` |         |
@@ -66,19 +100,15 @@ const gly = await core_native_html5()
 
 ## Engine writen in lua
 
- * auto detect fengari/wasmoon
- * fetch json rxi library to fengari
- * videojs integration in `core_media_*`
-
 ```js
 const gly = await core_native_html5()
     .set_el_root('main')
     .set_el_canvas('#gameCanvas')
-    .set_library('wasmoon', LuaFactory, LuaMultiReturn)
-    .set_library('fengari', fengari)
+    .set_library('wasmoon', window.LuaFactory, window.LuaMultiReturn)
+    .set_library('fengari', window.fengari)
     .set_library('fengari-jsonrxi', 'https://cdn.jsdelivr.net/gh/rxi/json.lua/json.lua')
     .set_library('fengari-or-wasmoon-check')
-    .set_library('videojs', videojs)
+    .set_library('player-videojs', window.videojs)
     .set_library('runtime')
     .set_library('keyboard')
     .set_library('resize')

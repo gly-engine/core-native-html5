@@ -27,8 +27,8 @@ export async function create_engine(hv: HyperVisorEngine, canvas: HTMLCanvasElem
             resume(hv.pause_reasons, motive)
             return methods()
         },
-        running: () => {
-            return !is_paused(hv.pause_reasons)
+        paused: () => {
+            return is_paused(hv.pause_reasons)
         },
         getImageData: () => {
             return ctx.getImageData(0, 0, canvas.width, canvas.height)

@@ -24,7 +24,7 @@
 
 ### Third-party Libraries
 
-``html
+```html
 <!-- fengari -->
 <script src="https://cdn.jsdelivr.net/npm/fengari-web@latest/dist/fengari-web.min.js"></script>
 

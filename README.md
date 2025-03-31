@@ -5,20 +5,39 @@
 
 > create your own game-engine with just javascript or lua.
 
-| driver name | description |
-| :---------- | :---------- |
-| fengari     | lua vm in es6
-| wasmoon     | lua vm in wasm
-| keyboard    | inputs events
-| gamepad     | inputs events
-| runtime     | tick and draw events
-| resize      | auto resize width and height 
-| player-fake | fake video player using html element `<canvas>`
-| player-html5 | video player using html  element `<video>`
-| player-videojs | video player using videojs library<br/>_(script src: <https://cdn.jsdelivr.net/npm/video.js@8.22.0/dist/video.min.js>)_
-| player-youtube | video player using iframe youtube integration
-| fengari-check | check for a lua virtual machine<br/>_(also `wasmoon-check` `fengari-or-wasmoon-check`)_
+### Built-in Modules
+
+| driver name     | description |
+| :-------------- | :---------- |
+| fengari         | lua vm in es6
+| wasmoon         | lua vm in wasm
+| keyboard        | inputs events
+| gamepad         | inputs events
+| runtime         | tick and draw events
+| resize          | auto resize width and height 
+| player-fake     | fake video player using html element `<canvas>`
+| player-html5    | video player using html  element `<video>`
+| player-videojs  | video player using videojs library
+| player-youtube  | video player using iframe youtube integration
+| fengari-check   | check for a lua virtual machine<br/>_(also `wasmoon-check` `fengari-or-wasmoon-check`)_
 | fengari-jsonrxi | thirdy party library json for core native api<br/>_(use string: <https://cdn.jsdelivr.net/gh/rxi/json.lua/json.lua>)_
+
+### Third-party Libraries
+
+``html
+<!-- fengari -->
+<script src="https://cdn.jsdelivr.net/npm/fengari-web@latest/dist/fengari-web.min.js"></script>
+
+<!-- wasmoon -->
+<script type="module">
+import { LuaFactory, LuaMultiReturn } from 'https://cdn.jsdelivr.net/npm/wasmoon@1.16.0/+esm'
+window.LuaFactory = LuaFactory
+window.LuaMultiReturn = LuaMultiReturn
+</script>
+
+<!-- videojs -->
+<script src="https://cdn.jsdelivr.net/npm/video.js@8.22.0/dist/video.min.js"></script>
+```
 
 ## Gly Engine
 

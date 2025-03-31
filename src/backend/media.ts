@@ -1,15 +1,13 @@
 import { mediaD } from "../type";
 
-export function native_media_bootstrap(media: mediaD, _, mediatype: string) {
+export function native_media_bootstrap(media: mediaD, mediatype: string) {
     const has_support = media.players.map((player => player.can(mediatype, '', 1))).some(score => score !== 0)
     media.devices.push(mediatype)
     media.mixer[media.devices.length - 1] = null
     return has_support? 1: 0
 }
 
-//! @todo rename to native_media_source
-//! @todo remove second paramter unusued
-export function native_media_load(media: mediaD, _, channel:number, url: string) {
+export function native_media_source(media: mediaD, channel:number, url: string) {
     const type = media.devices[channel]
     const players = media.players.length
 
@@ -33,37 +31,35 @@ export function native_media_load(media: mediaD, _, channel:number, url: string)
 
     if (!media.mixer[channel]) {
         console.error(`unsupported media: channel ${channel} type ${type}\n${url}`)
-        return false
     }
 
-    media.mixer[channel].source(url)
-    return true
+    media.mixer[channel]?.source(url)
 }
 
-export function native_media_position(media: mediaD, _, channel: number, x: number, y: number) {
+export function native_media_position(media: mediaD, channel: number, x: number, y: number) {
     media.mixer[channel]?.position(x, y)
 }
 
-export function native_media_resize(media: mediaD, _, channel:number, width, height) {
+export function native_media_resize(media: mediaD, channel:number, width, height) {
     media.mixer[channel]?.resize(width, height)
 }
-export function native_media_play(media: mediaD, _, channel:number) {
+export function native_media_play(media: mediaD, channel:number) {
     media.mixer[channel]?.play()
 }
 
-export function native_media_resume(media: mediaD, _, channel:number) {
+export function native_media_resume(media: mediaD, channel:number) {
     media.mixer[channel]?.resume()
 }
 
-export function native_media_pause(media: mediaD, _, channel:number) {
+export function native_media_pause(media: mediaD, channel:number) {
     media.mixer[channel]?.pause()
 }
 
-export function native_media_stop(media: mediaD, _, channel:number) {
+export function native_media_stop(media: mediaD, channel:number) {
     media.mixer[channel]?.destroy()
     media.mixer[channel] = null
 }
 
-export function native_media_time(media: mediaD, _, channel:number, time: number) {
+export function native_media_time(media: mediaD, channel:number, time: number) {
     media.mixer[channel]?.set_time(time)
 }

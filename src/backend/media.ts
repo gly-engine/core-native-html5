@@ -59,6 +59,11 @@ export function native_media_pause(media: mediaD, _, channel:number) {
     media.mixer[channel]?.pause()
 }
 
+export function native_media_stop(media: mediaD, _, channel:number) {
+    media.mixer[channel]?.destroy()
+    media.mixer[channel] = null
+}
+
 export function native_media_time(media: mediaD, _, channel:number, time: number) {
     media.mixer[channel]?.set_time(time)
 }

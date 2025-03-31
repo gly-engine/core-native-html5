@@ -30,17 +30,20 @@ function genVerts(ms: number, width: number, height: number): number[] {
 function cronomether(ms) {
     let date = new Date(ms);
     let formattedTime = date.toISOString().substr(11, 8);
-    let milliseconds = String(ms % 1000).padStart(3, '0');
-
+    let milliseconds = (ms % 1000).toFixed(0).padStart(3, '0');
     return `${formattedTime}:${milliseconds}`;
 }
 
-function can(type: string, url: string, score: number) {
+function can(type: string, url: string, score: number, default_score: number | undefined) {
+    if (typeof default_score !== 'number') {
+        default_score = 11
+    }
+
     if (!['video', 'tv', 'youtube', 'stream'].includes(type)) {
         return 0;
     }
 
-    return score + 11;
+    return score + default_score;
 }
 
 function init(type: string, channel: number) {
@@ -82,7 +85,6 @@ function init(type: string, channel: number) {
         ctx.textBaseline = 'top'
         ctx.textAlign = 'left'
         ctx.fillText(type, 0, 0)
-
         ctx.textBaseline = 'bottom'
         ctx.fillText(cmd, 0, el_media.height)
         ctx.textAlign = 'right'
@@ -143,8 +145,8 @@ function init(type: string, channel: number) {
     }
 }
 
-async function create_player(hv: {media_players: Array<{can: typeof can, init: typeof init}>}) {
-    hv.media_players.push({init, can})
+async function create_player(hv: {media_players: Array<{can: typeof can, init: typeof init}>}, default_score: number | undefined) {
+    hv.media_players.push({init, can: (a: string, b:string, c:number) => can(a, b, c, default_score)})
 }
 
 export default {

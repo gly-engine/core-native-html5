@@ -5,6 +5,21 @@
 
 > create your own game-engine with just javascript or lua.
 
+| driver name | description |
+| :---------- | :---------- |
+| fengari     | lua vm in es6
+| wasmoon     | lua vm in wasm
+| keyboard    | inputs events
+| gamepad     | inputs events
+| runtime     | tick and draw events
+| resize      | auto resize width and height 
+| player-fake | fake video player using html element `<canvas>`
+| player-html5 | video player using html  element `<video>`
+| player-videojs | video player using videojs library<br/>_(script src: <https://cdn.jsdelivr.net/npm/video.js@8.22.0/dist/video.min.js>)_
+| player-youtube | video player using iframe youtube integration
+| fengari-check | check for a lua virtual machine<br/>_(also `wasmoon-check` `fengari-or-wasmoon-check`)_
+| fengari-jsonrxi | thirdy party library json for core native api<br/>_(use string: <https://cdn.jsdelivr.net/gh/rxi/json.lua/json.lua>)_
+
 ## Gly Engine
 
 replace `@latest` with the engine version you want.
@@ -13,7 +28,7 @@ replace `@latest` with the engine version you want.
  * <https://www.npmjs.com/package/@gamely/gly-engine-lite>
  * <https://www.npmjs.com/package/@gamely/gly-engine-micro>
 
-| version            | fengari |library configs |
+| version            | fengari | library configs |
 | :----------------- | :-----: | :-------------- |
 | `0.0.7`            |         | `'runtime'` `{uptime: true}`<br/>`'keyboard'` `'legacy'`
 | `0.0.8` ~ `0.0.11` |         |

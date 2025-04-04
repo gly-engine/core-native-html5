@@ -236,6 +236,10 @@ async function install(hv: HyperVisorFengari, fengari: any) {
         func(fengari.lua.lua_tonumber(fengari.L, 1));
     });
 
+    define_lua_func('native_media_stop', (func) => {
+        func(fengari.lua.lua_tonumber(fengari.L, 1));
+    });
+
     define_lua_func('native_http_handler', (func) => {
         const request_id = fengari.lua.lua_tonumber(fengari.L, 2);
         func({

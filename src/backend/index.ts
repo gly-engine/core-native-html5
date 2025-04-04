@@ -49,7 +49,7 @@ export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingCo
         native_media_position: (channel: number, x: number, y: number) => backend_media.native_media_position(media_cache, channel, x, y),
         native_media_resize: (channel: number, width: number, height: number) => backend_media.native_media_resize(media_cache, channel, width, height),
         native_media_play: (channel: number) => backend_media.native_media_play(media_cache, channel),
-        native_media_stop: (channel: number) => backend_media.native_media_pause(media_cache, channel),
+        native_media_stop: (channel: number) => backend_media.native_media_stop(media_cache, channel),
         native_media_pause: (channel: number) => backend_media.native_media_pause(media_cache, channel),
         native_media_time: (channel: number, time: number) => backend_media.native_media_time(media_cache, channel, time),
         // for legacy compatibility:

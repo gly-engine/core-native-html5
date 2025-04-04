@@ -228,6 +228,10 @@ async function install(hv: HyperVisorFengari, fengari: any) {
         func(channel, Math.floor(time));
     });
 
+    define_lua_func('native_media_resume', (func) => {
+        func(fengari.lua.lua_tonumber(fengari.L, 1));
+    });
+
     define_lua_func('native_media_play', (func) => {
         func(fengari.lua.lua_tonumber(fengari.L, 1));
     });

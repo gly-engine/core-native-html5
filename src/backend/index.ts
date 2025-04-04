@@ -21,7 +21,7 @@ export function create_canvas(canvas: HTMLCanvasElement | string | undefined) {
 
 export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, players: Array<never>) {
     const render = {canvas, ctx}
-    const text_cache = {name: 'sans', size: 5, old: {name: '', size: 0}}
+    const text_cache = {name: 'sans', size: 5, old: {name: 'sans', size: 8}}
     const image_cache = {}
     const media_cache = {devices: [], current: [], mixer: {}, players}
     media_cache.players.push({can: () => 0} as never)

@@ -30,8 +30,10 @@ async function startup(hv: HyperVisorRuntime, cfg = {uptime: false, unfocus_paus
     }
 
     await (() => new Promise(r => setTimeout(r, 1)))()
-    hv.frontend.native_callback_init()
-    window.requestAnimationFrame(tick)
+    window.requestAnimationFrame(() => {
+        hv.frontend.native_callback_init()
+        tick()
+    })
 }
 
 export default {

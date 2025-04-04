@@ -13,7 +13,7 @@ export function native_text_font_name(render: renderI, font: fontI, name: string
 }
 
 export function native_text_font_size(render: renderI, font: fontI, size: number) {
-    font.size = size
+    font.size = Math.floor(size)
 }
 
 export function native_text_font_default(render: renderI, font: fontI, id: number) {

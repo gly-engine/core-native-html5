@@ -29,8 +29,11 @@ async function startup(hv: HyperVisorRuntime, cfg = {uptime: false, unfocus_paus
         window.addEventListener('focus', () => resume(hv.pause_reasons, 'focus'))
     }
 
-    hv.frontend.native_callback_init()
-    window.requestAnimationFrame(tick)
+    await (() => new Promise(r => setTimeout(r, 1)))()
+    window.requestAnimationFrame(() => {
+        hv.frontend.native_callback_init()
+        tick()
+    })
 }
 
 export default {

@@ -20,7 +20,7 @@ function can(type: string, url: string, score: number) {
 }
 
 function init(type: string, channel: number) {
-    const el_media = document.createElement(type === 'video'? 'video': 'audio')
+    let el_media = document.createElement(type === 'video'? 'video': 'audio')
     const el_root = document.querySelector('main') as HTMLElement
 
     is_video(type, () => el_media.style.zIndex = `${-channel -1}`)()
@@ -51,7 +51,11 @@ function init(type: string, channel: number) {
             el_media.style.top = `${y}px`
         }),        
         destroy: () => {
-            el_media.remove()
+            const drop = () => el_media.remove()
+            el_media.onerror = drop
+            el_media.onload = drop
+            el_media.src = ""
+            el_media.load()
         }
     }
 }

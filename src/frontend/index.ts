@@ -40,7 +40,7 @@ export function create_code(name: string, src: string | undefined) {
           return await response.text()
       }
   
-      return src
+      return src.replace(/\0/g, '')
     }    
 }
 

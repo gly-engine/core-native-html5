@@ -58,8 +58,14 @@ function init(videojslib: any, type: string, channel: number) {
             el_media.style.top = `${y}px`
         },
         destroy: () => {
-            el_media.remove()
             player.dispose()
+            const drop = () => el_media.remove()
+            el_media.onabort = drop
+            el_media.onerror = drop
+            el_media.onload = drop
+            el_media.src = ""
+            el_media.load()
+            el_media.remove()
         }
     }
 }

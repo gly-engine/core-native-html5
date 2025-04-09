@@ -53,6 +53,7 @@ function init(type: string, channel: number) {
         destroy: () => {
             const drop = () => el_media.remove()
             el_media.onerror = drop
+            el_media.onabort = drop
             el_media.onload = drop
             el_media.src = ""
             el_media.load()

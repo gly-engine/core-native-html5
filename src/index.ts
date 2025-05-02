@@ -11,29 +11,29 @@ export default (() => {
     let cfg_canvas: HTMLCanvasElement | string | undefined
     let cfg_rootel: HTMLElement | string | undefined
 
-    const methods = (device: Window) => ({
+    const methods = () => ({
         set_game: (game_code: string | unknown) => {
             cfg_game = game_code
-            return methods(device)
+            return methods()
         },
         set_engine: (engine_code: string) => {
             cfg_engine = engine_code
-            return methods(device)
+            return methods()
         },
         set_el_root: (element: HTMLElement | string) => {
             cfg_rootel = element
-            return methods(device)
+            return methods()
         },
         set_el_canvas: (canvas: HTMLCanvasElement | string) => {
             cfg_canvas = canvas
-            return methods(device)
+            return methods()
         },
         set_library: (type: string, ...args) => {
             cfg_libs.push({
                 driver: get_driver(type),
                 args: args
             })
-            return methods(device)
+            return methods()
         },
         build: async () => {
             const vm = {}
@@ -60,5 +60,5 @@ export default (() => {
         }
     })
 
-    return (device = window) => methods(device)
+    return () => methods()
 })()

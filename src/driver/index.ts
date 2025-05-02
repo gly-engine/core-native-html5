@@ -11,7 +11,14 @@ import player_html5 from './players/html5'
 import player_videojs from './players/videojs'
 import player_youtube from './players/youtube'
 
+const none = {
+    prepare: async(hv: {}) => {},
+    install: async(hv: {}) => {},
+    startup: async(hv: {}) => {}
+}
+
 const driver_map = {
+    none,
     resize,
     fengari,
     wasmoon,

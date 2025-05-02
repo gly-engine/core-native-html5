@@ -7,7 +7,6 @@ import check from "./lua/check";
 import wasmoon from "./lua/wasmoon";
 import fengari from "./lua/fengari";
 import player_fake from './players/fake'
-import player_ginga from './players/ginga'
 import player_html5 from './players/html5'
 import player_videojs from './players/videojs'
 import player_youtube from './players/youtube'
@@ -27,7 +26,6 @@ const driver_map = {
     gamepad,
     keyboard,
     'player-fake': player_fake,
-    'player-ginga': player_ginga,
     'player-html5': player_html5,
     'player-videojs': player_videojs,
     'player-youtube': player_youtube,

@@ -8,6 +8,7 @@ async function load_image(src: string) {
     return new Promise<HTMLImageElement>((resolve, reject) => {
         const error = new Error(`img ${src} error!`)
         const el = document.createElement('img')
+        el.crossOrigin = 'anonymous'
         el.src = src
         el.onload = () => resolve(el), 
         el.onerror = () => reject(error)

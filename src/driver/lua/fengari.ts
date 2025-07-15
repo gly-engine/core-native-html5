@@ -288,14 +288,13 @@ async function install(hv: HyperVisorFengari, fengari: any) {
         })
     });
 
-    fengari.lua.lua_pushboolean(fengari.L, true)
-    fengari.lua.lua_setglobal(fengari.L, fengari.to_luastring('native_http_has_callback'))
+    if (window.location.protocol == 'https:') {
+        fengari.lua.lua_pushstring(fengari.L, fengari.to_luastring('https'))
+        fengari.lua.lua_setglobal(fengari.L, fengari.to_luastring('native_http_force_protocol'))
+    }
 
     fengari.lua.lua_pushboolean(fengari.L, true)
     fengari.lua.lua_setglobal(fengari.L, fengari.to_luastring('native_http_has_ssl'))
-
-    fengari.lua.lua_pushstring(fengari.L, fengari.to_luastring(window.location.protocol == 'http:'? 'http': 'https'))
-    fengari.lua.lua_setglobal(fengari.L, fengari.to_luastring('native_http_force_protocol'))
 
     const lua_engine = await hv.code.engine()
     fengari.lauxlib.luaL_loadbuffer(fengari.L, fengari.to_luastring(lua_engine), lua_engine.length, 'engine');

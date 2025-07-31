@@ -63,13 +63,11 @@ function init(type: string, channel: number) {
         resume: () => {
             sendCommandWhenReady('playVideo')
         },
-        resize: (width: number, height: number) => {
-            iframe.style.width = `${width}px`
-            iframe.style.height = `${height}px`
-        },
-        position: (x: number, y: number) => {
+        position: (x: number, y: number, width: number, height: number) => {
             iframe.style.left = `${x}px`
             iframe.style.top = `${y}px`
+            iframe.style.width = `${width}px`
+            iframe.style.height = `${height}px`
         },
         destroy: () => {
             el_root.removeChild(iframe)

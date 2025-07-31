@@ -241,16 +241,10 @@ async function install(hv: HyperVisorFengari, fengari: any) {
         const channel = fengari.lua.lua_tonumber(fengari.L, 1);
         const x = fengari.lua.lua_tonumber(fengari.L, 2);
         const y = fengari.lua.lua_tonumber(fengari.L, 3);
+        const w = fengari.lua.lua_tonumber(fengari.L, 4);
+        const h = fengari.lua.lua_tonumber(fengari.L, 5);
         fengari.lua.lua_settop(fengari.L, 0);
-        func(channel, x, y)
-    });
-
-    define_lua_func('native_media_resize', (func) => {
-        const channel = fengari.lua.lua_tonumber(fengari.L, 1);
-        const w = fengari.lua.lua_tonumber(fengari.L, 2);
-        const h = fengari.lua.lua_tonumber(fengari.L, 3);
-        fengari.lua.lua_settop(fengari.L, 0);
-        func(channel, w, h)
+        func(channel, x, y, w, h)
     });
 
     define_lua_func('native_media_time', (func) => {

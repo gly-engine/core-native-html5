@@ -27,9 +27,17 @@ export default {
         install: async (hv) => {
             let errors = 0;
 
-            await Promise.allSettled([check_wasmoon(hv), check_fengari(hv)]).then(results => {
-                errors = results.filter(result => result.status === "rejected").length
-            })
+            try {
+                await check_wasmoon(hv)
+            } catch (e) {
+                errors += 1;
+            }
+
+            try {
+                await check_fengari(hv)
+            } catch (e) {
+                errors += 1;
+            }
 
             if (errors >= 2) {
                 throw new Error('wamoon or fengari is required!')

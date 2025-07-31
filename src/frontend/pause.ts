@@ -1,5 +1,8 @@
 export function is_paused(pause_reasons: Record<string, boolean>) {
-    return Object.values(pause_reasons).some(pause => pause)
+    for (var key in pause_reasons) {
+        if (pause_reasons[key]) return true;
+    }
+    return false;
 }
 
 export function pause(pause_reasons: Record<string, boolean>, motive = 'pause') {
@@ -7,16 +10,17 @@ export function pause(pause_reasons: Record<string, boolean>, motive = 'pause') 
 }
 
 export function resume(pause_reasons: Record<string, boolean>, motive?: string) {
-    if (!motive || motive.length == 0) {
-        return Object.keys(pause_reasons).forEach(motive => {
-            pause_reasons[motive] = false
-        })
+    if (motive && motive.length > 0) {
+        pause_reasons[motive] = false
+        return;
     }
-    pause_reasons[motive] = false
+    for (var key in pause_reasons) {
+        pause_reasons[key] = false
+    }       
 }
 
 export function unpaused_call(pause_reasons: Record<string, boolean>, fn: (...args: unknown[]) => void) {
-    let checkPaused: number;
+    let checkPaused: ReturnType<typeof setInterval>
   
     return (...args) => {
         clearInterval(checkPaused);

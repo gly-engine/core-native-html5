@@ -53,13 +53,13 @@ export function native_draw_rect2(render: renderI, mode: number, x: number, y: n
     ctx.beginPath();
     ctx.moveTo(x + radius, y);
     ctx.lineTo(x + w - radius, y);
-    ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+    ctx.arc(x + w - radius, y + radius, radius, 1.5 * Math.PI, 0);
     ctx.lineTo(x + w, y + h - radius);
-    ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+    ctx.arc(x + w - radius, y + h - radius, radius, 0, 0.5 * Math.PI);
     ctx.lineTo(x + radius, y + h);
-    ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+    ctx.arc(x + radius, y + h - radius, radius, 0.5 * Math.PI, Math.PI);
     ctx.lineTo(x, y + radius);
-    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.arc(x + radius, y + radius, radius, Math.PI, 1.5 * Math.PI);
     ctx.closePath();
 
     if (mode === 1) {

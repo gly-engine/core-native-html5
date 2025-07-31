@@ -127,6 +127,17 @@ async function install(hv: HyperVisorFengari, fengari: any) {
         func(mode, x, y, w, h);
     });
 
+    define_lua_func('native_draw_rect2', (func) => {
+        const mode = fengari.lua.lua_tointeger(fengari.L, 1);
+        const x = fengari.lua.lua_tonumber(fengari.L, 2);
+        const y = fengari.lua.lua_tonumber(fengari.L, 3);
+        const w = fengari.lua.lua_tonumber(fengari.L, 4);
+        const h = fengari.lua.lua_tonumber(fengari.L, 5);
+        const r = fengari.lua.lua_tonumber(fengari.L, 6);
+        fengari.lua.lua_settop(fengari.L, 0);
+        func(mode, x, y, w, h, r);
+    });
+
     define_lua_func('native_draw_line', (func) => {
         const x1 = fengari.lua.lua_tonumber(fengari.L, 1);
         const y1 = fengari.lua.lua_tonumber(fengari.L, 2);

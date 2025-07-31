@@ -42,6 +42,33 @@ export function native_draw_rect(render: renderI, mode: number, x: number, y: nu
     }
 }
 
+export function native_draw_rect2(render: renderI, mode: number, x: number, y: number, w: number, h: number, r?: number) {
+    if (!r) {
+        return native_draw_rect(render, mode, x, y, w, h);
+    }
+
+    const ctx = render.ctx;
+    const radius = Math.min(r, w / 2, h / 2);
+
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + w - radius, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+    ctx.lineTo(x + w, y + h - radius);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+    ctx.lineTo(x + radius, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+
+    if (mode === 1) {
+        ctx.stroke();
+    } else {
+        ctx.fill();
+    }
+}
+
 export function native_draw_poly2(render: renderI, mode: number, verts: Array<number>, x: number, y:number, scale:number, angle:number, ox:number, oy:number) {
    
     let index = 0

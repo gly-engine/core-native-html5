@@ -33,6 +33,7 @@ export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingCo
         native_draw_color: (color: number) => backend_canvas.native_draw_color(render, color),
         native_draw_clear: (color: number, x:number, y: number, w: number, h: number) => backend_canvas.native_draw_clear(render, color, x, y, w, h),
         native_draw_rect: (mode: number, x:number, y: number, w: number, h: number) => backend_canvas.native_draw_rect(render, mode, x, y, w, h),
+        native_draw_rect2: (mode: number, x:number, y: number, w: number, h: number, r?: number) => backend_canvas.native_draw_rect2(render, mode, x, y, w, h, r),
         native_draw_line: (x1: number, y1: number, x2: number, y2: number) => backend_canvas.native_draw_line(render, x1, y1, x2, y2),
         native_draw_poly2: (mode: number, verts: Array<number>, x: number, y:number, scale:number, angle:number, ox:number, oy:number) => backend_canvas.native_draw_poly2(render, mode, verts, x, y, scale, angle, ox, oy),
         native_text_font_name: (name: string) => backend_text.native_text_font_name(render, text_cache, name),

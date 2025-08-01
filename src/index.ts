@@ -55,10 +55,14 @@ export default (() => {
             await Promise.all(cfg_libs.map(lib => lib.driver.prepare(hypervisor, ...lib.args)))
             await Promise.all(cfg_libs.map(lib => lib.driver.install(hypervisor, ...lib.args)))
             await Promise.all(cfg_libs.map(lib => lib.driver.startup(hypervisor, ...lib.args)))
+            const shutdown = async () => {
+                await Promise.all(cfg_libs.map(lib => lib.driver.destroy?.(hypervisor, ...lib.args)))
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+            }
 
-            return create_engine(hypervisor as unknown as Parameters<typeof create_engine>[0], canvas, ctx)
+            return create_engine(hypervisor as unknown as Parameters<typeof create_engine>[0], canvas, ctx, shutdown)
         }
     })
 
-    return () => methods()
-})()
+    return methods()
+})

@@ -1,7 +1,7 @@
 const mock = async (_: {}) => {}
 
-async function check_wasmoon(hv: {vm: {lua: unknown}}) {
-    if (!hv.vm.lua) {
+async function check_wasmoon(hv: {vm: {wasmoon: unknown}}) {
+    if (!hv.vm.wasmoon) {
         throw new Error('wasmoon is required!')
     }
 }
@@ -24,22 +24,8 @@ export default {
         startup: mock
     },
     fengari_wasmoon: {
-        install: async (hv) => {
-            let errors = 0;
-
-            try {
-                await check_wasmoon(hv)
-            } catch (e) {
-                errors += 1;
-            }
-
-            try {
-                await check_fengari(hv)
-            } catch (e) {
-                errors += 1;
-            }
-
-            if (errors >= 2) {
+        install: async (hv: { vm?: { lua?: unknown } }) => {
+            if (hv?.vm?.lua) {
                 throw new Error('wamoon or fengari is required!')
             }
         },

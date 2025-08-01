@@ -13,7 +13,7 @@ type HyperVisorWasmoon = {
     backend: Awaited<ReturnType<typeof create_backend>>,
     vm:  {
         fengari: unknown,
-        factory: LuaFactory,
+        wasmoon: LuaFactory,
         lua: LuaEngine
     },
 }
@@ -23,12 +23,12 @@ async function prepare(hv: HyperVisorWasmoon, LuaFactory: new () => LuaFactory) 
         return;
     }
 
-    hv.vm.factory = new LuaFactory()
-    hv.vm.lua = await hv.vm.factory.createEngine()
+    hv.vm.wasmoon = new LuaFactory()
+    hv.vm.lua = await hv.vm.wasmoon.createEngine()
 }
 
 async function install(hv: HyperVisorWasmoon, _: any, LuaMultiReturn: { from: (arg0: number[]) => void; }) {
-    if (!hv.vm.lua) {
+    if (!hv.vm.wasmoon) {
         return;
     }
 
@@ -69,8 +69,15 @@ async function startup(hv: {}) {
 
 }
 
+async function destroy(hv: HyperVisorWasmoon) {
+    if (hv.vm.wasmoon && hv.vm.lua) {
+        hv.vm.lua.global.close()
+    }
+}
+
 export default {
     prepare,
     install,
-    startup
+    startup,
+    destroy
 }

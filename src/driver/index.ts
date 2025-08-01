@@ -38,6 +38,7 @@ const driver_map = {
 function custom_driver(step_name: string, driver_name: string) {
     return async (hv: {}, func: {}, ...args: unknown[]) => {
         if (typeof func !== 'object' || typeof func[step_name] !== 'function') {
+            if (step_name == 'destroy') return;
             throw new Error(`driver not found: ${driver_name} (${step_name})`)
         }
         await func[step_name](hv, ...args);
@@ -54,6 +55,7 @@ export function get_driver(driver_name: string) {
     return {
         prepare: custom_driver('prepare', driver_name),
         install: custom_driver('install', driver_name),
-        startup: custom_driver('startup', driver_name)
+        startup: custom_driver('startup', driver_name),
+        destroy: custom_driver('destroy', driver_name)
     } as libI
 }

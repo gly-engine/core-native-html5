@@ -2,6 +2,7 @@ import { pause, resume } from "../frontend/pause"
 import { create_frontend } from "../frontend"
 
 type HyperVisorRuntime = {
+    destroyed: boolean,
     frontend: Awaited<ReturnType<typeof create_frontend>>,
     pause_reasons: Record<string, boolean>
 }

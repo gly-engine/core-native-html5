@@ -30,3 +30,9 @@ export function native_image_draw(render: renderI, cache: imageD, src: string, x
         render.ctx.drawImage(cache[src], x, y)
     }
 }
+
+export function native_image_clear_all(cache: imageD) {
+    for (const key in cache) {
+        delete cache[key]
+    }
+}

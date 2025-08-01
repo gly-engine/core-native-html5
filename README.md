@@ -54,15 +54,15 @@ replace `@latest` with the engine version you want.
 | `0.0.18` and newer | support |
 
 ```js
-const gly = await core_native_html5()
-    .set_el_root('main')
-    .set_el_canvas('#gameCanvas')
-    .set_library('wasmoon', LuaFactory, LuaMultiReturn)
-    .set_library('runtime', {uptime: false})
-    .set_library('keyboard')
-    .set_library('resize')
-    .set_engine('https://cdn.jsdelivr.net/npm/@gamely/gly-engine@latest/dist/main.lua')
-    .set_game('game.lua')
+const gly = await CoreNativeHtml5()
+    .setElementRoot('main')
+    .setElementCanvas('#gameCanvas')
+    .addLibrary('wasmoon', LuaFactory, LuaMultiReturn)
+    .addLibrary('runtime', {uptime: false})
+    .addLibrary('keyboard')
+    .addLibrary('resize')
+    .setEngine('https://cdn.jsdelivr.net/npm/@gamely/gly-engine@latest/dist/main.lua')
+    .setGame('game.lua')
     .build()
 ```
 
@@ -86,42 +86,42 @@ const keymap = [
     ['ShiftLeft', 'menu'],
 ];
 
-const gly = await core_native_html5()
-    .set_el_root('main')
-    .set_el_canvas('#gameCanvas')
-    .set_library('fengari', fengari)
-    .set_library('runtime', {unfocus_pause: true})
-    .set_library('keyboard', keymap)
-    .set_library('resize')
-    .set_engine('https://cdn.jsdelivr.net/npm/@gamely/love-engine@latest/dist/main.lua')
-    .set_game('main.lua')
+const gly = await CoreNativeHtml5()
+    .setElementRoot('main')
+    .setElementCanvas('#gameCanvas')
+    .addLibrary('fengari', fengari)
+    .addLibrary('runtime', {unfocus_pause: true})
+    .addLibrary('keyboard', keymap)
+    .addLibrary('resize')
+    .setEngine('https://cdn.jsdelivr.net/npm/@gamely/love-engine@latest/dist/main.lua')
+    .setGame('main.lua')
     .build()
 ```
 
 ## Engine writen in lua
 
 ```js
-const gly = await core_native_html5()
-    .set_el_root('main')
-    .set_el_canvas('#gameCanvas')
-    .set_library('wasmoon', window.LuaFactory, window.LuaMultiReturn)
-    .set_library('fengari', window.fengari)
-    .set_library('fengari-jsonrxi', 'https://cdn.jsdelivr.net/gh/rxi/json.lua/json.lua')
-    .set_library('fengari-or-wasmoon-check')
-    .set_library('player-videojs', window.videojs)
-    .set_library('runtime')
-    .set_library('keyboard')
-    .set_library('resize')
-    .set_engine('engine.lua')
-    .set_game('game.lua')
+const gly = await CoreNativeHtml5()
+    .setElementRoot('main')
+    .setElementCanvas('#gameCanvas')
+    .addLibrary('wasmoon', window.LuaFactory, window.LuaMultiReturn)
+    .addLibrary('fengari', window.fengari)
+    .addLibrary('fengari-jsonrxi', 'https://cdn.jsdelivr.net/gh/rxi/json.lua/json.lua')
+    .addLibrary('fengari-or-wasmoon-check')
+    .addLibrary('player-videojs', window.videojs)
+    .addLibrary('runtime')
+    .addLibrary('keyboard')
+    .addLibrary('resize')
+    .setEngine('engine.lua')
+    .setGame('game.lua')
     .build()
 ```
 
 ## Baremetal javascript
 
 ```js
-const gly = await core_native_html5()
-    .set_el_canvas('#gameCanvas')
+const gly = await CoreNativeHtml5()
+    .setElementCanvas('#gameCanvas')
     .build()
 
 gly.engine.on('draw', () => {
@@ -162,7 +162,7 @@ function awesome_game(loop, draw, keys) {
 
 ```js
 function awesome_engine(game) {
-    core_native_html5().set_el_canvas('#game').set_library('keyboard').set_library('runtime').build().then((gly) => {
+    CoreNativeHtml5().setElementCanvas('#game').addLibrary('keyboard').addLibrary('runtime').build().then((gly) => {
         const loop = {
             callback: (f) => gly.on('loop', f)
         }

@@ -12,23 +12,23 @@ export default (() => {
     let cfg_rootel: HTMLElement | string | undefined
 
     const methods = () => ({
-        set_game: (game_code: string | unknown) => {
+        setGame: (game_code: string | unknown) => {
             cfg_game = game_code
             return methods()
         },
-        set_engine: (engine_code: string) => {
+        setEngine: (engine_code: string) => {
             cfg_engine = engine_code
             return methods()
         },
-        set_el_root: (element: HTMLElement | string) => {
+        setElementRoot: (element: HTMLElement | string) => {
             cfg_rootel = element
             return methods()
         },
-        set_el_canvas: (canvas: HTMLCanvasElement | string) => {
+        setElementCanvas: (canvas: HTMLCanvasElement | string) => {
             cfg_canvas = canvas
             return methods()
         },
-        set_library: (type: string, ...args) => {
+        addLibrary: (type: string, ...args) => {
             cfg_libs.push({
                 driver: get_driver(type),
                 args: args

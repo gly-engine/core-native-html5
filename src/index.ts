@@ -37,6 +37,7 @@ export default (() => {
         },
         build: async () => {
             const vm = {}
+            const running = true
             const media_players = []
             const pause_reasons = {}
             const code = {
@@ -49,7 +50,7 @@ export default (() => {
             const frontbus = create_emiter()
             const frontend = await create_frontend(frontbus, code, canvas, pause_reasons)
             const hypervisor = {
-                vm, code, backend, frontend, frontbus, pause_reasons, media_players
+                vm, code, backend, frontend, frontbus, pause_reasons, media_players, running
             }
 
             await Promise.all(cfg_libs.map(lib => lib.driver.prepare(hypervisor, ...lib.args)))
@@ -58,6 +59,7 @@ export default (() => {
             const shutdown = async () => {
                 await Promise.all(cfg_libs.map(lib => lib.driver.destroy?.(hypervisor, ...lib.args)))
                 ctx.clearRect(0, 0, canvas.width, canvas.height)
+                hypervisor.running = false
             }
 
             return create_engine(hypervisor as unknown as Parameters<typeof create_engine>[0], canvas, ctx, shutdown)

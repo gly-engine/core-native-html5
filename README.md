@@ -43,15 +43,10 @@ window.LuaMultiReturn = LuaMultiReturn
 
 replace `@latest` with the engine version you want.
 
- * <https://www.npmjs.com/package/@gamely/gly-engine>
- * <https://www.npmjs.com/package/@gamely/gly-engine-lite>
- * <https://www.npmjs.com/package/@gamely/gly-engine-micro>
-
-| version            | fengari | library configs |
-| :----------------- | :-----: | :-------------- |
-| `0.0.7`            |         | `'runtime'` `{uptime: true}`<br/>`'keyboard'` `'legacy'`
-| `0.0.8` ~ `0.0.11` |         |
-| `0.0.18` and newer | support |
+ * <https://cdn.jsdelivr.net/npm/@gamely/gly-engine>
+ * <https://cdn.jsdelivr.net/npm/@gamely/gly-engine-lite>
+ * <https://cdn.jsdelivr.net/npm/@gamely/gly-engine-micro>
+ * <https://cdn.jsdelivr.net/npm/@gamely/gly-engine-nano>
 
 ```js
 const gly = await CoreNativeHtml5()
@@ -70,7 +65,7 @@ const gly = await CoreNativeHtml5()
 
 support wasmoon and fengari!
 
- * <https://www.npmjs.com/package/@gamely/love-engine>
+ * <https://cdn.jsdelivr.net/npm/@gamely/love-engine>
 
 ```js
 const keymap = [

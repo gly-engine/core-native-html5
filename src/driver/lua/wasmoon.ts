@@ -37,6 +37,10 @@ async function install(hv: HyperVisorWasmoon, _: any, LuaMultiReturn: { from: (a
         hv.vm.lua.global.set(key, hv.backend[key])
     }
 
+    hv.vm.lua.global.set('native_image_mensure', (src) => {
+        return LuaMultiReturn.from(hv.backend.native_image_mensure(src))
+    })
+
     hv.vm.lua.global.set('native_text_mensure', (text) => {
         return LuaMultiReturn.from(hv.backend.native_text_mensure(text))
     })

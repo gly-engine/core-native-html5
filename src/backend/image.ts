@@ -15,9 +15,9 @@ async function load_image(src: string) {
     });
 }
 
-export function native_image_load(render: renderI, cache: imageD, src: string) {
+export function native_image_load(render: renderI, cache: imageD, src: string, url?: string) {
     if (!(src in cache)) {
-        cache[src] = preload_image(src)
+        cache[src] = preload_image(url ?? src)
         if (!cache[src]) {
             load_image(src).then((el) => cache[src] = el)
         }
@@ -29,6 +29,14 @@ export function native_image_draw(render: renderI, cache: imageD, src: string, x
     if (cache[src]) {
         render.ctx.drawImage(cache[src], x, y)
     }
+}
+
+export function native_image_mensure(render: renderI, cache: imageD, src: string) {
+    native_image_load(render, cache, src)
+    if (cache[src]) {
+        return [cache[src].width, cache[src].height]
+    }
+    return []
 }
 
 export function native_image_clear_all(cache: imageD) {

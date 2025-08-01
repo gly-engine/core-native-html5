@@ -25,7 +25,7 @@ export default {
     },
     fengari_wasmoon: {
         install: async (hv: { vm?: { lua?: unknown } }) => {
-            if (hv?.vm?.lua) {
+            if (!hv.vm?.lua) {
                 throw new Error('wamoon or fengari is required!')
             }
         },

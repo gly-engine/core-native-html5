@@ -12,17 +12,18 @@ type HyperVisorWasmoon = {
     frontend: Awaited<ReturnType<typeof create_frontend>>,
     backend: Awaited<ReturnType<typeof create_backend>>,
     vm:  {
-        fengari: unknown,
         wasmoon: LuaFactory,
         lua: LuaEngine
     },
 }
 
 async function prepare(hv: HyperVisorWasmoon, LuaFactory: new () => LuaFactory) {
-    if (!LuaFactory || hv.vm.fengari) {
+    if (!LuaFactory || hv.vm.lua) {
         return;
     }
 
+    // @ts-ignore
+    hv.vm.lua = true
     hv.vm.wasmoon = new LuaFactory()
     hv.vm.lua = await hv.vm.wasmoon.createEngine()
 }
@@ -70,7 +71,7 @@ async function startup(hv: {}) {
 }
 
 async function destroy(hv: HyperVisorWasmoon) {
-    if (hv.vm.wasmoon && hv.vm.lua) {
+    if (hv.vm.wasmoon) {
         hv.vm.lua.global.close()
     }
 }

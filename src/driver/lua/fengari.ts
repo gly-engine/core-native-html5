@@ -10,8 +10,7 @@ type HyperVisorFengari = {
     },
     vm: {
         lua: unknown,
-        fengari: any,
-        wasmoon: unknown
+        fengari: any
     }
 }
 
@@ -38,7 +37,7 @@ async function prepare(hv: HyperVisorFengari, fengari: any) {
 }
 
 async function install(hv: HyperVisorFengari, fengari: any) {
-    if (!hv.vm.fengari || hv.vm.wasmoon) {
+    if (!hv.vm.fengari) {
         return;
     }
 
@@ -337,7 +336,7 @@ async function startup(hv: HyperVisorFengari, fengari: any) {
 }
 
 async function destroy(hv: HyperVisorFengari) {
-    if (hv.vm.fengari && hv.vm.lua) {
+    if (hv.vm.fengari) {
         hv.vm.fengari.lua.lua_close(hv.vm.lua)
     }
 }

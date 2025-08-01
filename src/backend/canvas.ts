@@ -1,7 +1,11 @@
 import { renderI } from '../type'
 
-function hexToStr(n: number) {
-    return (n >>> 0).toString(16).padStart(8, '0')
+function hexToColor(color: number) {
+    const r = (color >>> 24) & 0xFF;
+    const g = (color >>> 16) & 0xFF;
+    const b = (color >>> 8) & 0xFF;
+    const a = (color & 0xFF) / 255;
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + a.toFixed(3) + ')';
 }
 
 export function native_draw_start(render: renderI) {
@@ -13,12 +17,12 @@ export function native_draw_flush(render: renderI) {
 }
 
 export function native_draw_clear(render: renderI, color: number, x?: number, y?: number, w?: number, h?: number) {
-    render.ctx.fillStyle = '#' + hexToStr(color)
+    render.ctx.fillStyle = hexToColor(color)
     render.ctx.fillRect(x ?? 0, y ?? 0, w ?? render.canvas.width, h ?? render.canvas.height)
 }
 
 export function native_draw_color(render: renderI, color: number) {
-    const fillstyle = '#' + hexToStr(color)
+    const fillstyle = hexToColor(color)
     render.ctx.strokeStyle = fillstyle
     render.ctx.fillStyle = fillstyle
 }
@@ -35,6 +39,33 @@ export function native_draw_rect(render: renderI, mode: number, x: number, y: nu
         render.ctx.strokeRect(x, y, w, h)
     } else {
         render.ctx.fillRect(x, y, w, h)
+    }
+}
+
+export function native_draw_rect2(render: renderI, mode: number, x: number, y: number, w: number, h: number, r?: number) {
+    if (!r) {
+        return native_draw_rect(render, mode, x, y, w, h);
+    }
+
+    const ctx = render.ctx;
+    const radius = Math.min(r, w / 2, h / 2);
+
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + w - radius, y);
+    ctx.arc(x + w - radius, y + radius, radius, 1.5 * Math.PI, 0);
+    ctx.lineTo(x + w, y + h - radius);
+    ctx.arc(x + w - radius, y + h - radius, radius, 0, 0.5 * Math.PI);
+    ctx.lineTo(x + radius, y + h);
+    ctx.arc(x + radius, y + h - radius, radius, 0.5 * Math.PI, Math.PI);
+    ctx.lineTo(x, y + radius);
+    ctx.arc(x + radius, y + radius, radius, Math.PI, 1.5 * Math.PI);
+    ctx.closePath();
+
+    if (mode === 1) {
+        ctx.stroke();
+    } else {
+        ctx.fill();
     }
 }
 

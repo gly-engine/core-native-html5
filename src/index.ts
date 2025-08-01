@@ -12,23 +12,23 @@ export default (() => {
     let cfg_rootel: HTMLElement | string | undefined
 
     const methods = () => ({
-        set_game: (game_code: string | unknown) => {
+        setGame: (game_code: string | unknown) => {
             cfg_game = game_code
             return methods()
         },
-        set_engine: (engine_code: string) => {
+        setEngine: (engine_code: string) => {
             cfg_engine = engine_code
             return methods()
         },
-        set_el_root: (element: HTMLElement | string) => {
+        setElementRoot: (element: HTMLElement | string) => {
             cfg_rootel = element
             return methods()
         },
-        set_el_canvas: (canvas: HTMLCanvasElement | string) => {
+        setElementCanvas: (canvas: HTMLCanvasElement | string) => {
             cfg_canvas = canvas
             return methods()
         },
-        set_library: (type: string, ...args) => {
+        addLibrary: (type: string, ...args) => {
             cfg_libs.push({
                 driver: get_driver(type),
                 args: args
@@ -37,6 +37,7 @@ export default (() => {
         },
         build: async () => {
             const vm = {}
+            const running = true
             const media_players = []
             const pause_reasons = {}
             const code = {
@@ -49,16 +50,21 @@ export default (() => {
             const frontbus = create_emiter()
             const frontend = await create_frontend(frontbus, code, canvas, pause_reasons)
             const hypervisor = {
-                vm, code, backend, frontend, frontbus, pause_reasons, media_players
+                vm, code, backend, frontend, frontbus, pause_reasons, media_players, running
             }
 
             await Promise.all(cfg_libs.map(lib => lib.driver.prepare(hypervisor, ...lib.args)))
             await Promise.all(cfg_libs.map(lib => lib.driver.install(hypervisor, ...lib.args)))
             await Promise.all(cfg_libs.map(lib => lib.driver.startup(hypervisor, ...lib.args)))
+            const shutdown = async () => {
+                await Promise.all(cfg_libs.map(lib => lib.driver.destroy?.(hypervisor, ...lib.args)))
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                hypervisor.running = false
+            }
 
-            return create_engine(hypervisor as unknown as Parameters<typeof create_engine>[0], canvas, ctx)
+            return create_engine(hypervisor as unknown as Parameters<typeof create_engine>[0], canvas, ctx, shutdown)
         }
     })
 
-    return () => methods()
-})()
+    return methods()
+})

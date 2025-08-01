@@ -47,15 +47,13 @@ function init(videojslib: any, type: string, channel: number) {
         resume: () => {
             player.play()
         },
-        resize: (width, height) => {
+        position: (x, y, width, height) => {
             player.width(width)
             player.height(height)
-            el_media.style.width = `${width}px`
-            el_media.style.height = `${height}px`
-        },
-        position: (x, y) => {
             el_media.style.left = `${x}px`
             el_media.style.top = `${y}px`
+            el_media.style.width = `${width}px`
+            el_media.style.height = `${height}px`
         },
         destroy: () => {
             player.dispose()

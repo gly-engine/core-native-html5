@@ -309,7 +309,6 @@ async function install(hv: HyperVisorFengari, fengari: any) {
         fengari.lua.lua_pushnumber(fengari.L, width);
         fengari.lua.lua_pushnumber(fengari.L, height);
         fengari.lauxlib.luaL_loadbuffer(fengari.L, fengari.to_luastring(game), game.lenght, 'game');
-        fengari.lua.lua_pcall(fengari.L, 0, 1, 0);
         return 3;
     })
 

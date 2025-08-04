@@ -1,21 +1,20 @@
 
 import { create_backend } from "../backend";
 import { is_paused, pause, resume } from "./pause";
-import { create_code, create_frontend } from "../frontend";
+import { create_code, create_emiter, create_frontend } from "../frontend";
 
 type HyperVisorEngine = {
     code: {
         game: string | object
     },
-    frontbus: {
-        on: (key: string, func: unknown) => {}
-    },
+    destroyed: boolean,
+    frontbus: ReturnType<typeof create_emiter>,
     frontend: Awaited<ReturnType<typeof create_frontend>>,
     backend: Awaited<ReturnType<typeof create_backend>>,
     pause_reasons: Record<string, boolean>
 }
 
-export async function create_engine(hv: HyperVisorEngine, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+export async function create_engine(hv: HyperVisorEngine, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, shutdown: () => Promise<void>) {
     const methods = () => ({
         frontend: hv.frontend,
         backend: hv.backend,
@@ -37,26 +36,15 @@ export async function create_engine(hv: HyperVisorEngine, canvas: HTMLCanvasElem
             ctx.lineWidth = size
             return methods()
         },
-        game: (game: string | object, not_restart = false) => {
-            const type = typeof game
-            if (!['string', 'object'].includes(type)) {
-                throw new Error(`invalid game format: ${type}`)
-            }
-            
-            if (not_restart || type === 'object') {
-                hv.code.game = game
-            } else {
-                create_code('game.lua', game as string)()
-                    .then(game => hv.code.game = game)
-                    .then(() => methods().resume('').frontend.native_callback_init())
-            }
-
-            return methods()
-        },
-        on: (key: string, func: unknown) => {
+        on: (key: string, func: Function) => {
             hv.frontbus.on(key, func)
             return methods()
-        }    
+        },
+        destroy: async () => {
+            hv.backend.native_image_clear_all()
+            hv.frontbus.shutdown()
+            await shutdown();
+        }
     })
 
     return methods()

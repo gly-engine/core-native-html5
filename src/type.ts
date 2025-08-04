@@ -15,8 +15,7 @@ export type mediaPlayerD = {
     resume: () => void,
     destroy: () => void,
     source: (url: string) => void,
-    resize: (x: number, y: number) => void,
-    position: (x: number, y: number) => void,
+    position: (x: number, y: number, w: number, h: number) => void,
     set_time: (miliseconds: number) => void,
     can: (type: string, url: string, score: number) => number,
 }
@@ -39,5 +38,6 @@ export type renderI = {
 export type libI = {
     prepare: (engine: {}, ...args: Array<unknown>) => Promise<void>,
     install: (engine: {}, ...args: Array<unknown>) => Promise<void>,
-    startup: (engine: {}, ...args: Array<unknown>) => Promise<void>
+    startup: (engine: {}, ...args: Array<unknown>) => Promise<void>,
+    destroy?: (engine: {}, ...args: Array<unknown>) => Promise<void>
 }

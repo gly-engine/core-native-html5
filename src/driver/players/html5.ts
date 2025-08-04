@@ -42,13 +42,11 @@ function init(type: string, channel: number) {
         resume: () => {
             el_media.play()
         },
-        resize: is_video(type, (width, height) => {
-            el_media.style.width = `${width}px`
-            el_media.style.height = `${height}px`
-        }),
-        position: is_video(type, (x, y) => {
+        position: is_video(type, (x, y, width, height) => {
             el_media.style.left = `${x}px`
             el_media.style.top = `${y}px`
+            el_media.style.width = `${width}px`
+            el_media.style.height = `${height}px`
         }),        
         destroy: () => {
             const drop = () => el_media.remove()

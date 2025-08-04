@@ -12,29 +12,34 @@ type HyperVisorWasmoon = {
     frontend: Awaited<ReturnType<typeof create_frontend>>,
     backend: Awaited<ReturnType<typeof create_backend>>,
     vm:  {
-        fengari: unknown,
-        factory: LuaFactory,
+        wasmoon: LuaFactory,
         lua: LuaEngine
     },
 }
 
 async function prepare(hv: HyperVisorWasmoon, LuaFactory: new () => LuaFactory) {
-    if (!LuaFactory || hv.vm.fengari) {
+    if (!LuaFactory || hv.vm.lua) {
         return;
     }
 
-    hv.vm.factory = new LuaFactory()
-    hv.vm.lua = await hv.vm.factory.createEngine()
+    // @ts-ignore
+    hv.vm.lua = true
+    hv.vm.wasmoon = new LuaFactory()
+    hv.vm.lua = await hv.vm.wasmoon.createEngine()
 }
 
 async function install(hv: HyperVisorWasmoon, _: any, LuaMultiReturn: { from: (arg0: number[]) => void; }) {
-    if (!hv.vm.lua) {
+    if (!hv.vm.wasmoon) {
         return;
     }
 
     for (const key in hv.backend) {
         hv.vm.lua.global.set(key, hv.backend[key])
     }
+
+    hv.vm.lua.global.set('native_image_mensure', (src) => {
+        return LuaMultiReturn.from(hv.backend.native_image_mensure(src))
+    })
 
     hv.vm.lua.global.set('native_text_mensure', (text) => {
         return LuaMultiReturn.from(hv.backend.native_text_mensure(text))
@@ -69,8 +74,15 @@ async function startup(hv: {}) {
 
 }
 
+async function destroy(hv: HyperVisorWasmoon) {
+    if (hv.vm.wasmoon) {
+        hv.vm.lua.global.close()
+    }
+}
+
 export default {
     prepare,
     install,
-    startup
+    startup,
+    destroy
 }

@@ -36,13 +36,10 @@ export function native_media_source(media: mediaD, channel:number, url: string) 
     media.mixer[channel]?.source(url)
 }
 
-export function native_media_position(media: mediaD, channel: number, x: number, y: number) {
-    media.mixer[channel]?.position(x, y)
+export function native_media_position(media: mediaD, channel: number, x: number, y: number, w: number, h: number) {
+    media.mixer[channel]?.position(x, y, w, h)
 }
 
-export function native_media_resize(media: mediaD, channel:number, width, height) {
-    media.mixer[channel]?.resize(width, height)
-}
 export function native_media_play(media: mediaD, channel:number) {
     media.mixer[channel]?.play()
 }

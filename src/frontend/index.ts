@@ -9,6 +9,10 @@ class EventEmitter {
       }
       this.events[event].push(listener);
     }
+
+    shutdown(): void {
+      this.events = {}
+    }
   
     off(event: string, listener: Function): void {
       if (!this.events[event]) return;

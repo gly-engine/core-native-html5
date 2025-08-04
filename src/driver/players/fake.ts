@@ -129,15 +129,12 @@ function init(type: string, channel: number) {
                 tick()
             }
         },
-        resize: (width, height) => {
-            cmd = 'resize'
-            el_media.width = width
-            el_media.height = height
-        },
-        position: (x, y) => {
+        position: (x, y, width, height) => {
             cmd = 'position'
             el_media.style.left = `${x}px`
             el_media.style.top = `${y}px`
+            el_media.width = width
+            el_media.height = height
         },        
         destroy: () => {
             el_media.remove()

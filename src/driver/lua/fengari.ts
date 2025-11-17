@@ -204,7 +204,7 @@ async function install(hv: HyperVisorFengari, fengari: any) {
     });
 
     define_lua_func('native_system_get_language', (func) => {
-        fengari.lua.lua_pushstring(hv.vm.lua, func());
+        fengari.lua.lua_pushstring(hv.vm.lua, fengari.to_luastring(func()));
         return 1;
     });
 
@@ -213,7 +213,7 @@ async function install(hv: HyperVisorFengari, fengari: any) {
         fengari.lua.lua_settop(hv.vm.lua, 0);
         const var_value = func(var_name);
         if (var_value) {
-            fengari.lua.lua_pushstring(hv.vm.lua, var_value);
+            fengari.lua.lua_pushstring(hv.vm.lua, fengari.to_luastring(var_value));
             return 1;
         }
     });

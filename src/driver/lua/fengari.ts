@@ -307,6 +307,26 @@ async function install(hv: HyperVisorFengari, fengari: any) {
         })
     });
 
+    define_lua_func('native_log_debug', (func) => {
+        func(fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, 1)));
+    })
+
+    define_lua_func('native_log_info', (func) => {
+        func(fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, 1)));
+    })
+
+    define_lua_func('native_log_warn', (func) => {
+        func(fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, 1)));
+    })
+
+    define_lua_func('native_log_error', (func) => {
+        func(fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, 1)));
+    })
+
+    define_lua_func('native_log_fatal', (func) => {
+        func(fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, 1)));
+    })
+
     if (window.location.protocol == 'https:') {
         fengari.lua.lua_pushstring(hv.vm.lua, fengari.to_luastring('https'))
         fengari.lua.lua_setglobal(hv.vm.lua, fengari.to_luastring('native_http_force_protocol'))

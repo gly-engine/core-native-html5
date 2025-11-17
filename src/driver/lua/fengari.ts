@@ -208,6 +208,16 @@ async function install(hv: HyperVisorFengari, fengari: any) {
         return 1;
     });
 
+    define_lua_func('native_system_get_env', (func) => {
+        const var_name = fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, 1));
+        fengari.lua.lua_settop(hv.vm.lua, 0);
+        const var_value = func(var_name);
+        if (var_value) {
+            fengari.lua.lua_pushstring(hv.vm.lua, var_value);
+            return 1;
+        }
+    });
+
     define_lua_func('native_image_load', (func) => {
         const src = fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, 1));
         const url = fengari.lua.lua_type(hv.vm.lua, 2) === fengari.lua.LUA_TSTRING

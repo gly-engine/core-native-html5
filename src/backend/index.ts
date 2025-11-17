@@ -47,6 +47,7 @@ export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingCo
         native_image_mensure: (text: string) => backend_image.native_image_mensure(render, image_cache, text),
         native_image_clear_all: () => backend_image.native_image_clear_all(image_cache),
         native_system_get_language: () => backend_system.native_system_get_language(),
+        native_system_get_env: (var_name: string) => backend_system.native_system_get_env(var_name),
         native_media_bootstrap: (mediatype: string) => backend_media.native_media_bootstrap(media_cache, mediatype),
         native_media_source: (channel: number, url: string) => backend_media.native_media_source(media_cache, channel, url),
         native_media_position: (channel: number, x: number, y: number, w: number, h: number) => backend_media.native_media_position(media_cache, channel, x, y, w, h),

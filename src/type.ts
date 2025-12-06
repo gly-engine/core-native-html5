@@ -7,7 +7,11 @@ export type fontI = {
     }
 }
 
-export type imageD =  {[key: string]: HTMLImageElement | null}
+export type imageD =  {
+    count: number;
+    name: {[key: string]: number };
+    data: Array<HTMLImageElement | null>
+}
 
 export type mediaPlayerD = {
     play: () => void,

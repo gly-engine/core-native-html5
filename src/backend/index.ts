@@ -4,6 +4,7 @@ import * as backend_image from './image.ts'
 import * as backend_media from './media.ts'
 import * as backend_text from './text.ts'
 import * as backend_system from './system.ts'
+import { imageD } from '../type.ts'
 
 export function create_canvas(canvas: HTMLCanvasElement | string | undefined) {
     if (typeof canvas == 'object') {
@@ -22,12 +23,14 @@ export function create_canvas(canvas: HTMLCanvasElement | string | undefined) {
 export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, players: Array<never>) {
     const render = {canvas, ctx}
     const text_cache = {name: 'sans', size: 5, old: {name: 'sans', size: 8}}
-    const image_cache = {}
+    const image_cache = {} as imageD
     const media_cache = {devices: [], current: [], mixer: {}, players}
     media_cache.players.push({can: () => 0} as never)
 
+    backend_image.native_image_unload_all(image_cache)
+
     return {
-        native_http_handler: (self) =>backend_http.native_http_handler(self),
+        native_http_handler: (self: any) =>backend_http.native_http_handler(self),
         native_draw_start: () => backend_canvas.native_draw_start(render),
         native_draw_flush: () => backend_canvas.native_draw_flush(render),
         native_draw_color: (color: number) => backend_canvas.native_draw_color(render, color),
@@ -45,7 +48,8 @@ export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingCo
         native_image_load: (src: string, url?: string) => backend_image.native_image_load(render, image_cache, src, url),
         native_image_draw: (src: string, x: number, y: number) => backend_image.native_image_draw(render, image_cache, src, x, y),
         native_image_mensure: (text: string) => backend_image.native_image_mensure(render, image_cache, text),
-        native_image_clear_all: () => backend_image.native_image_clear_all(image_cache),
+        native_image_unload: (src: string, url?: string) => backend_image.native_image_unload(image_cache, src),
+        native_image_unload_all: () => backend_image.native_image_unload_all(image_cache),
         native_system_get_language: () => backend_system.native_system_get_language(),
         native_system_get_env: (var_name: string) => backend_system.native_system_get_env(var_name),
         native_media_bootstrap: (mediatype: string) => backend_media.native_media_bootstrap(media_cache, mediatype),
@@ -57,6 +61,7 @@ export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingCo
         native_media_pause: (channel: number) => backend_media.native_media_pause(media_cache, channel),
         native_media_time: (channel: number, time: number) => backend_media.native_media_time(media_cache, channel, time),
         native_log_debug: (txt: string) => console.log(txt),
+        native_log_trace: (txt: string) => console.info(txt),
         native_log_info: (txt: string) => console.info(txt),
         native_log_warn: (txt: string) => console.warn(txt),
         native_log_error: (txt: string) => console.error(txt),

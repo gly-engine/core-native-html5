@@ -61,6 +61,7 @@ export function create_backend(canvas: HTMLCanvasElement, ctx: CanvasRenderingCo
         native_media_pause: (channel: number) => backend_media.native_media_pause(media_cache, channel),
         native_media_time: (channel: number, time: number) => backend_media.native_media_time(media_cache, channel, time),
         native_log_debug: (txt: string) => console.log(txt),
+        native_log_trace: (txt: string) => console.info(txt),
         native_log_info: (txt: string) => console.info(txt),
         native_log_warn: (txt: string) => console.warn(txt),
         native_log_error: (txt: string) => console.error(txt),

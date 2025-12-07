@@ -42,8 +42,10 @@ export function native_image_load(render: renderI, cache: imageD, src: string, u
     const el_preloaded = preload_image(src)
 
     if (el_preloaded) {
-        cache.name[src] = ++cache.count
-        return cache.count
+        const new_id = ++cache.count;
+        cache.name[src] = new_id;
+        cache.data[new_id] = el_preloaded;
+        return new_id;
     }
 
     const new_id = ++cache.count

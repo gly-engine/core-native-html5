@@ -224,11 +224,26 @@ async function install(hv: HyperVisorFengari, fengari: any) {
             ? fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, 2))
             : null;
         fengari.lua.lua_settop(hv.vm.lua, 0);
-        func(src, url)
+        const id = func(src, url);
+        fengari.lua.lua_settop(hv.vm.lua, 0);
+        if (id) {
+            fengari.lua.lua_pushnumber(hv.vm.lua, 1);
+            return 1;
+        }
+        return 0;
     });
 
     define_lua_func('native_image_draw', (func) => {
-        const src = fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, 1));
+        const get_src_arg = (idx: number) => {
+            const type = fengari.lua.lua_type(hv.vm.lua, idx);
+            if (type === fengari.lua.LUA_TSTRING) {
+                return fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, idx));
+            } else if (type === fengari.lua.LUA_TNUMBER) {
+                return fengari.lua.lua_tonumber(hv.vm.lua, idx);
+            }
+            return undefined;
+        };
+        const src = get_src_arg(1);
         const x = fengari.lua.lua_tonumber(hv.vm.lua, 2);
         const y = fengari.lua.lua_tonumber(hv.vm.lua, 3);
         fengari.lua.lua_settop(hv.vm.lua, 0);
@@ -236,14 +251,21 @@ async function install(hv: HyperVisorFengari, fengari: any) {
     });
 
     define_lua_func('native_image_mensure', (func) => {
-        const src = fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, 1));
+        const get_src_arg = (idx: number) => {
+            const type = fengari.lua.lua_type(hv.vm.lua, idx);
+            if (type === fengari.lua.LUA_TSTRING) {
+                return fengari.to_jsstring(fengari.lua.lua_tostring(hv.vm.lua, idx));
+            } else if (type === fengari.lua.LUA_TNUMBER) {
+                return fengari.lua.lua_tonumber(hv.vm.lua, idx);
+            }
+            return undefined;
+        };
+        const src = get_src_arg(1);
         fengari.lua.lua_settop(hv.vm.lua, 0);
         const [width, height] = func(src);
-        if (width && height) {
-            fengari.lua.lua_pushnumber(hv.vm.lua, width);
-            fengari.lua.lua_pushnumber(hv.vm.lua, height);
-            return 2;
-        }
+        fengari.lua.lua_pushnumber(hv.vm.lua, width);
+        fengari.lua.lua_pushnumber(hv.vm.lua, height);
+        return 2;
     });
 
     define_lua_func('native_media_bootstrap', (func) => {
